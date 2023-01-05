@@ -87,7 +87,6 @@
 				BA0C007F0D5D100F8F05159A /* Pods-filmLibrary.debug.xcconfig */,
 				044EACBC7000186BBF235973 /* Pods-filmLibrary.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -159,6 +158,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 257E35CA29672F0300E89695 /* Build configuration list for PBXNativeTarget "filmLibrary" */;
 			buildPhases = (
+				257E35D3296730C600E89695 /* ShellScript */,
 				D0538421DFB80DBD8E6D543F /* [CP] Check Pods Manifest.lock */,
 				257E359C29672F0100E89695 /* Sources */,
 				257E359D29672F0100E89695 /* Frameworks */,
@@ -281,6 +281,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		257E35D3296730C600E89695 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		4E6EE8FCA872EB5D5E63CD69 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
