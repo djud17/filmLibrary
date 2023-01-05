@@ -8,6 +8,8 @@
 import UIKit
 
 enum Constants {
+    static let downloadDataNumber = 40
+    
     enum ApiRequest {
         static let mainUrl = "https://api.kinopoisk.dev/"
         static let token = "0GFAXYE-3SZ4R0N-MYN7XYM-CBA3V83"
