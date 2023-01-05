@@ -9,23 +9,23 @@ import Foundation
 
 // MARK: - Enum types
 
-enum MovieType {
-    case movie
-    case tvSeries
-    case cartoon
-    case anime
-    case animatedSeries
-    case tvShow
+enum MovieType: String, Decodable {
+    case movie = "movie"
+    case tvSeries = "tv-series"
+    case cartoon = "cartoon"
+    case anime = "anime"
+    case animatedSeries = "animated-series"
+    case tvShow = "tv-show"
 }
 
-enum SexType {
-    case men
-    case women
+enum SexType: String, Decodable {
+    case men = "Мужской"
+    case women = "Женский"
 }
 
-enum ReviewType {
-    case positive
-    case negative
+enum ReviewType: String, Decodable {
+    case positive = "Положительный"
+    case negative = "Негативный"
 }
 
 // MARK: - Global struct models
@@ -33,7 +33,7 @@ enum ReviewType {
 struct Movie: Decodable {
     let id: Int
     let name: String
-    let type: String
+    let type: MovieType
     let description: String
     let year: Int
     let movieLength: Int
@@ -41,33 +41,14 @@ struct Movie: Decodable {
     let poster: Poster
     let genres: [Genre]
     let facts: [Fact]
-    let persons: [Person]
-    
-    var movieType: MovieType? {
-        switch type {
-        case "movie":
-            return .movie
-        case "tv-series":
-            return .tvSeries
-        case "cartoon":
-            return .cartoon
-        case "anime":
-            return .anime
-        case "animated-series":
-            return .animatedSeries
-        case "tv-show":
-            return .tvShow
-        default:
-            return nil
-        }
-    }
+    //let persons: [ShortPerson]
 }
 
 struct Person: Decodable {
     let id: Int
     let name: String
     let photo: String
-    let sex: String
+    let sex: SexType
     let growth: Int
     let birthday: String
     let death: String
@@ -75,51 +56,29 @@ struct Person: Decodable {
     let profession: Profession
     let facts: [Fact]
     let movies: [ShortMovie]
-    
-    var sexType: SexType? {
-        switch sex {
-        case "Мужской":
-            return .men
-        case "Женский":
-            return .women
-        default:
-            return nil
-        }
-    }
 }
 
 struct Review: Decodable {
     let id: Int
     let movieId: Int
     let title: String
-    let type: String
+    let type: ReviewType
     let review: String
     let date: String
     let author: String
-    
-    var reviewType: ReviewType? {
-        switch type {
-        case "Негативный":
-            return .negative
-        case "Положительный":
-            return .positive
-        default:
-            return nil
-        }
-    }
 }
 
 // MARK: - Struct helpers
 
 struct Rating: Decodable {
-    let kp: Int
-    let tmdb: Int
-    let imdb: Int
+    let kp: Double?
+    let tmdb: Double?
+    let imdb: Double?
 }
 
 struct Poster: Decodable {
     let url: String
-    let prevUrl: String
+    let previewUrl: String
 }
 
 struct Budget: Decodable {
@@ -132,7 +91,7 @@ struct Genre: Decodable {
 }
 
 struct Fact: Decodable {
-    let name: String
+    let value: String
 }
 
 struct Profession: Decodable {
@@ -144,4 +103,12 @@ struct ShortMovie: Decodable {
     let name: String
     let rating: Double
     let description: String
+}
+
+struct ShortPerson: Decodable {
+    let id: Int
+    let name: String
+    let photo: String
+    let enProfession: String
+    let personDescription: String?
 }
