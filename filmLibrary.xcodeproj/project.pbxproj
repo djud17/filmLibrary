@@ -15,6 +15,7 @@
 		257E35BB29672F0300E89695 /* filmLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257E35BA29672F0300E89695 /* filmLibraryTests.swift */; };
 		257E35C529672F0300E89695 /* filmLibraryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257E35C429672F0300E89695 /* filmLibraryUITests.swift */; };
 		257E35C729672F0300E89695 /* filmLibraryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257E35C629672F0300E89695 /* filmLibraryUITestsLaunchTests.swift */; };
+		257E35D92967393B00E89695 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257E35D82967393B00E89695 /* ApiClient.swift */; };
 		278CE19C278FB8C6EF652A17 /* Pods_filmLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68F4F14C27B7E06076EEBEDA /* Pods_filmLibrary.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		257E35C029672F0300E89695 /* filmLibraryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = filmLibraryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		257E35C429672F0300E89695 /* filmLibraryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = filmLibraryUITests.swift; sourceTree = "<group>"; };
 		257E35C629672F0300E89695 /* filmLibraryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = filmLibraryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		257E35D82967393B00E89695 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		68F4F14C27B7E06076EEBEDA /* Pods_filmLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_filmLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA0C007F0D5D100F8F05159A /* Pods-filmLibrary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-filmLibrary.debug.xcconfig"; path = "Target Support Files/Pods-filmLibrary/Pods-filmLibrary.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,12 +115,10 @@
 		257E35A229672F0100E89695 /* filmLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				257E35A329672F0100E89695 /* AppDelegate.swift */,
-				257E35A529672F0100E89695 /* SceneDelegate.swift */,
-				257E35A729672F0100E89695 /* ViewController.swift */,
-				257E35AC29672F0300E89695 /* Assets.xcassets */,
-				257E35AE29672F0300E89695 /* LaunchScreen.storyboard */,
-				257E35B129672F0300E89695 /* Info.plist */,
+				257E35DA2967398100E89695 /* Sources */,
+				257E35D72967392700E89695 /* Services */,
+				257E35D42967390400E89695 /* Model */,
+				25AA67AC29673A8E00F5989F /* Main Screen Module */,
 			);
 			path = filmLibrary;
 			sourceTree = "<group>";
@@ -138,6 +138,57 @@
 				257E35C629672F0300E89695 /* filmLibraryUITestsLaunchTests.swift */,
 			);
 			path = filmLibraryUITests;
+			sourceTree = "<group>";
+		};
+		257E35D42967390400E89695 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		257E35D52967390B00E89695 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				257E35A729672F0100E89695 /* ViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		257E35D62967391200E89695 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		257E35D72967392700E89695 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				257E35D82967393B00E89695 /* ApiClient.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		257E35DA2967398100E89695 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				257E35A329672F0100E89695 /* AppDelegate.swift */,
+				257E35A529672F0100E89695 /* SceneDelegate.swift */,
+				257E35AC29672F0300E89695 /* Assets.xcassets */,
+				257E35AE29672F0300E89695 /* LaunchScreen.storyboard */,
+				257E35B129672F0300E89695 /* Info.plist */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		25AA67AC29673A8E00F5989F /* Main Screen Module */ = {
+			isa = PBXGroup;
+			children = (
+				257E35D52967390B00E89695 /* View */,
+				257E35D62967391200E89695 /* Presenter */,
+			);
+			path = "Main Screen Module";
 			sourceTree = "<group>";
 		};
 		BDB562EF2A5D0C69F04599F1 /* Frameworks */ = {
@@ -344,6 +395,7 @@
 				257E35A829672F0100E89695 /* ViewController.swift in Sources */,
 				257E35A429672F0100E89695 /* AppDelegate.swift in Sources */,
 				257E35A629672F0100E89695 /* SceneDelegate.swift in Sources */,
+				257E35D92967393B00E89695 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +567,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F5BJS4MMJH;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = filmLibrary/Info.plist;
+				INFOPLIST_FILE = filmLibrary/Sources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -547,7 +599,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F5BJS4MMJH;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = filmLibrary/Info.plist;
+				INFOPLIST_FILE = filmLibrary/Sources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
