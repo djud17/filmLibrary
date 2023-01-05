@@ -29,6 +29,7 @@ final class MainScreenViewController: UIViewController {
     }()
     
     private var startDataNumber = 298
+    private var isLoadMoreData = true
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -100,9 +101,22 @@ extension MainScreenViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        if indexPath.row == Constants.downloadDataNumber / 2 {
+        let index = presenter.getNumberOfRecords() - (Constants.downloadDataNumber / 2)
+        
+        if indexPath.row == index {
+            isLoadMoreData = true
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        didEndDisplaying cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        let index = presenter.getNumberOfRecords() - (Constants.downloadDataNumber / 2)
+        
+        if (indexPath.row == index) && isLoadMoreData {
             startDataNumber += Constants.downloadDataNumber
             presenter.loadData(from: startDataNumber)
+            isLoadMoreData = false
         }
     }
 }
