@@ -15,7 +15,7 @@ final class ActorCollectionViewCell: UICollectionViewCell {
         
         layer.cornerRadius = self.frame.height / 2
         layer.borderColor = Constants.Color.white.cgColor
-        layer.borderWidth = 2
+        layer.borderWidth = Constants.Size.borderWidth / 2
         
         actorImageView.tintColor = Constants.Color.white
         actorImageView.backgroundColor = .white

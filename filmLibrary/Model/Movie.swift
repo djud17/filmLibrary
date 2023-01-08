@@ -16,7 +16,7 @@ struct Movie: Decodable {
     let type: MovieType
     let name: String
     let description: String?
-    let year: Int
+    let year: Int?
     let shortDescription: String?
 }
 

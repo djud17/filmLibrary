@@ -18,7 +18,7 @@ final class MovieTableViewCell: UITableViewCell {
         
         backView.layer.cornerRadius = Constants.Size.cornerRadius
         backView.layer.borderColor = Constants.Color.orange.cgColor
-        backView.layer.borderWidth = 4
+        backView.layer.borderWidth = Constants.Size.borderWidth
         backgroundColor = Constants.Color.white
         backView.backgroundColor = Constants.Color.white
         

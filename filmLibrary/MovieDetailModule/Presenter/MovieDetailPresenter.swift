@@ -32,7 +32,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     func loadData() {
         let imageUrl = movie.poster?.previewUrl
         delegate?.setupPosterImage(with: imageUrl ?? "")
-        delegate?.setupMovieName(with: movie.name + " (\(movie.year))")
+        delegate?.setupMovieName(with: movie.name + " (\(movie.year ?? 0))")
         delegate?.setupMovieDescription(with: movie.description ?? "")
         delegate?.setupInfoBlock(rating: movie.rating.kinopoisk, duration: movie.movieLength ?? 0)
     }
@@ -45,7 +45,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
         let movieId = movie.id
         
         DispatchQueue.global().async(flags: .barrier) { [weak self] in
-            self?.apiClient.getMovie(by: movieId) { [weak self] result in
+            self?.apiClient.getMovie(by: movieId) { result in
                 switch result {
                 case .success(let success):
                     self?.actors = success.persons

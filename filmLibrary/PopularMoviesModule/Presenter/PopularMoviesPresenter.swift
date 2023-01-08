@@ -31,7 +31,7 @@ final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
     
     func loadData() {
         DispatchQueue.global().async(flags: .barrier) { [weak self] in
-            self?.apiClient.getPopularMovies { [weak self] result in
+            self?.apiClient.getPopularMovies { result in
                 switch result {
                 case .success(let success):
                     self?.movies = success.movies

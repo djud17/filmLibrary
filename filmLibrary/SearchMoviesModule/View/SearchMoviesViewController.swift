@@ -19,7 +19,7 @@ final class SearchMoviesViewController: UIViewController {
         let label = CustomLabel(withType: .title)
         label.textColor = Constants.Color.white
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: Constants.FontSize.large)
         label.text = "Введите ваш запрос"
         return label
     }()
@@ -79,6 +79,8 @@ final class SearchMoviesViewController: UIViewController {
         moviesTableView.register(nibModels: [MovieTableViewCellModel.self])
         
         searchBar.delegate = self
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     private func setupHierarchy() {
@@ -88,14 +90,17 @@ final class SearchMoviesViewController: UIViewController {
     }
     
     private func setupLayout() {
+        let smallOffset = Constants.Offset.small
+        let mediumOffset = Constants.Offset.medium
+        
         searchRequestLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().offset(mediumOffset)
+            make.trailing.equalToSuperview().inset(mediumOffset)
         }
         
         searchBar.snp.makeConstraints { make in
-            make.top.equalTo(searchRequestLabel.snp.bottom).offset(10)
+            make.top.equalTo(searchRequestLabel.snp.bottom).offset(smallOffset)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
@@ -137,14 +142,17 @@ extension SearchMoviesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        needLoadMoreData = true
+        let index = presenter.getNumberOfRecords() / 2
+        if indexPath.row == index {
+            needLoadMoreData = true
+        }
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let index = presenter.getNumberOfRecords() / 2
         if indexPath.row == index && needLoadMoreData {
             presenter.loadMoreData()
-            needLoadMoreData = true
+            needLoadMoreData = false
         }
     }
 }

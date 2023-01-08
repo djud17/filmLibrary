@@ -47,11 +47,14 @@ enum Constants {
         static let smallCellHeight: CGFloat = 130
         
         static let cornerRadius: CGFloat = 15
+        static let borderWidth: CGFloat = 4
     }
     
     enum FontSize {
         static let titleLabel: CGFloat = 18
         static let textLabel: CGFloat = 17
         static let factLabel: CGFloat = 15
+        
+        static let large: CGFloat = 20
     }
 }

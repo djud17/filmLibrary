@@ -65,7 +65,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
                   let searchText = self?.searchRequest else { return }
             
             if currentPage <= pages {
-                self?.apiClient.searchMovie(for: searchText, in: currentPage) { [weak self] result in
+                self?.apiClient.searchMovie(for: searchText, in: currentPage) { result in
                     switch result {
                     case .success(let success):
                         self?.movies += success.results

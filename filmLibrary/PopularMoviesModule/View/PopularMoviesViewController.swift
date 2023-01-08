@@ -97,8 +97,8 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let model = presenter.getData(for: indexPath.row) else { return UICollectionViewCell() }
         
-        let imageUrl = model.poster?.previewUrl
-        let movie: CellViewAnyModel = MovieCollectionViewCellModel(imageUrl: imageUrl ?? "")
+        let imageUrl = model.poster?.previewUrl ?? ""
+        let movie: CellViewAnyModel = MovieCollectionViewCellModel(imageUrl: imageUrl)
         
         return collectionView.dequeueReusableCell(withModel: movie, for: indexPath)
     }
