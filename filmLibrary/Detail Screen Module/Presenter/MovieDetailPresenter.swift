@@ -14,6 +14,7 @@ protocol MovieDetailPresenterProtocol {
     func getNumberOfActors() -> Int
     func getData(for id: Int) -> Actor?
     func loadMovieInfo()
+    func getFacts() -> [String]
 }
 
 final class MovieDetailPresenter: MovieDetailPresenterProtocol {
@@ -44,7 +45,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
         let movieId = movie.id
         
         DispatchQueue.global().async(flags: .barrier) { [weak self] in
-            self?.apiClient.getMovie(by: movieId) { result in
+            self?.apiClient.getMovie(by: movieId) { [weak self] result in
                 switch result {
                 case .success(let success):
                     self?.actors = success.persons
@@ -53,8 +54,9 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
                     print("Error - \(error.localizedDescription)")
                 }
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     self?.delegate?.updateActorsBlock()
+                    self?.delegate?.setupFactsBlock()
                 }
             }
         }
@@ -66,5 +68,37 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
         } else {
             return nil
         }
+    }
+    
+    func getFacts() -> [String] {
+        var randomFacts = [String]()
+        
+        for _ in 0..<5 {
+            let index = Int.random(in: 0..<movieFacts.count)
+            let fact = cleanFact(fact: movieFacts[index].value)
+            randomFacts.append(fact)
+        }
+        
+        let set = Set(randomFacts)
+        return Array(set)
+    }
+    
+    private func cleanFact(fact: String) -> String {
+        var cleanFact = fact
+        var needCheck = true
+        
+        while needCheck {
+            if let firstIndex = cleanFact.firstIndex(of: "<"),
+               let lastIndex = cleanFact.firstIndex(of: ">") {
+                cleanFact.removeSubrange(firstIndex...lastIndex)
+            } else if let firstIndex = cleanFact.firstIndex(of: "&"),
+                 let lastIndex = cleanFact.firstIndex(of: ";") {
+                cleanFact.removeSubrange(firstIndex...lastIndex)
+            } else {
+                needCheck = false
+            }
+        }
+        
+        return cleanFact
     }
 }
