@@ -30,11 +30,11 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     }
     
     func loadData() {
-        let imageUrl = movie.poster.previewUrl
-        delegate?.setupPosterImage(with: imageUrl)
+        let imageUrl = movie.poster?.previewUrl
+        delegate?.setupPosterImage(with: imageUrl ?? "")
         delegate?.setupMovieName(with: movie.name + " (\(movie.year))")
-        delegate?.setupMovieDescription(with: movie.description)
-        delegate?.setupInfoBlock(rating: movie.rating.kinopoisk, duration: movie.movieLength)
+        delegate?.setupMovieDescription(with: movie.description ?? "")
+        delegate?.setupInfoBlock(rating: movie.rating.kinopoisk, duration: movie.movieLength ?? 0)
     }
     
     func getNumberOfActors() -> Int {
@@ -73,10 +73,12 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     func getFacts() -> [String] {
         var randomFacts = [String]()
         
-        for _ in 0..<7 {
-            let index = Int.random(in: 0..<movieFacts.count)
-            let fact = cleanFact(fact: movieFacts[index].value)
-            randomFacts.append(fact)
+        if movieFacts.count > 0 {
+            for _ in 0..<7 {
+                let index = Int.random(in: 0..<movieFacts.count)
+                let fact = cleanFact(fact: movieFacts[index].value)
+                randomFacts.append(fact)
+            }
         }
         
         let set = Set(randomFacts)
