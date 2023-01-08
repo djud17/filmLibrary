@@ -14,6 +14,7 @@ protocol MovieDetailDelegate: AnyObject {
     func setupMovieDescription(with text: String)
     func setupInfoBlock(rating: Double, duration: Int)
     func updateActorsBlock()
+    func setupFactsBlock()
 }
 
 final class MovieDetailViewController: UIViewController {
@@ -67,8 +68,8 @@ final class MovieDetailViewController: UIViewController {
     
     private let actorsCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = .zero
-        layout.itemSize = CGSize(width: 50, height: 80)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: 50, height: 50)
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -81,13 +82,16 @@ final class MovieDetailViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: .zero)
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = true
         scrollView.alwaysBounceHorizontal = false
-        scrollView.alwaysBounceVertical = true
-        scrollView.isScrollEnabled = true
         scrollView.clipsToBounds = true
         scrollView.backgroundColor = Constants.Color.white
         return scrollView
+    }()
+    
+    private let factsBlock: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
     }()
     
     // MARK: - Inits
@@ -153,7 +157,6 @@ dolorem eum fugiat quo voluptas nulla pariatur?
         label.numberOfLines = 0
         label.sizeToFit()
         label.textColor = UIColor.black
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -207,16 +210,14 @@ dolorem eum fugiat quo voluptas nulla pariatur?
     }
     
     private func setupContentViewHierarchy() {
-        let contentView: UIView = {
-            let view = UIView()
-            view.backgroundColor = .white
-            return view
-        }()
+        let contentView = UIView()
+        contentView.backgroundColor = Constants.Color.white
         
         scrollView.addSubview(contentView)
         contentView.addSubview(movieDescriptionLabel)
         contentView.addSubview(actorsCollectionView)
-        contentView.addSubview(titleLabel)
+        //contentView.addSubview(titleLabel)
+        contentView.addSubview(factsBlock)
         
         setupContentViewLayout(for: contentView)
     }
@@ -269,9 +270,8 @@ dolorem eum fugiat quo voluptas nulla pariatur?
             make.trailing.equalToSuperview().inset(mediumOffset)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(factsTitleLabel.snp.bottom).offset(mediumOffset)
+        factsBlock.snp.makeConstraints { make in
+            make.top.equalTo(factsTitleLabel.snp.bottom).offset(smallOffset)
             make.leading.equalToSuperview().offset(mediumOffset)
             make.trailing.equalToSuperview().inset(mediumOffset)
             make.bottom.equalToSuperview()
@@ -308,6 +308,49 @@ extension MovieDetailViewController: MovieDetailDelegate {
     
     func updateActorsBlock() {
         actorsCollectionView.reloadData()
+    }
+    
+    func setupFactsBlock() {
+        let facts = presenter.getFacts()
+        
+        var underView = factsBlock.snp.top
+        for (index, fact) in facts.enumerated() {
+            let factView = createFactView(with: fact)
+            
+            factsBlock.addSubview(factView)
+            
+            factView.snp.makeConstraints { make in
+                make.top.equalTo(underView).offset(10)
+                make.trailing.leading.equalToSuperview()
+                
+                if index == facts.count - 1 {
+                    make.bottom.equalToSuperview().inset(10)
+                }
+            }
+            underView = factView.snp.bottom
+        }
+    }
+    
+    private func createFactView(with fact: String) -> UIView {
+        let view = UIView()
+        view.backgroundColor = Constants.Color.orange
+        view.layer.cornerRadius = Constants.Size.cornerRadius
+        
+        let factLabel = UILabel()
+        factLabel.font = .italicSystemFont(ofSize: 15)
+        factLabel.textColor = Constants.Color.white
+        factLabel.textAlignment = .center
+        factLabel.text = fact
+        factLabel.numberOfLines = 0
+
+        view.addSubview(factLabel)
+        
+        factLabel.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().offset(10)
+            make.bottom.trailing.equalToSuperview().inset(10)
+        }
+        
+        return view
     }
 }
 
