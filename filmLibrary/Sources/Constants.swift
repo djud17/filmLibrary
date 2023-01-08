@@ -8,7 +8,7 @@
 import UIKit
 
 enum Constants {
-    static let downloadDataNumber = 40
+    static let downloadDataNumber = 50
     
     enum ApiRequest {
         static let mainUrl = "https://api.kinopoisk.dev/"
@@ -16,9 +16,32 @@ enum Constants {
     }
     
     enum Color {
-        static let blue = UIColor(red: 0, green: 0.46, blue: 0.9, alpha: 1)
-        static let lightBlue = UIColor(red: 0, green: 0.46, blue: 0.9, alpha: 0.5)
         static let white: UIColor = .white
-        static let red: UIColor = .red
+        static let black: UIColor = .black
+        static let orange = UIColor(red: 0.95, green: 0.46, blue: 0, alpha: 1)
+    }
+    
+    enum Offset {
+        static let small: CGFloat = 10
+        static let medium: CGFloat = 20
+        static let large: CGFloat = 40
+        
+        static let smallCellInset: CGFloat = 10
+    }
+    
+    enum Size {
+        static let imageHeight: CGFloat = 170
+        static let imageWidth: CGFloat = 120
+        
+        static let smallImageSize: CGFloat = 50
+        static let smallCellHeight: CGFloat = 130
+        
+        static let cornerRadius: CGFloat = 15
+    }
+    
+    enum FontSize {
+        static let titleLabel: CGFloat = 18
+        static let textLabel: CGFloat = 17
+        static let factLabel: CGFloat = 15
     }
 }

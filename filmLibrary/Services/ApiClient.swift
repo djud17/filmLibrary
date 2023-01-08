@@ -13,24 +13,47 @@ enum ApiError: Error {
 }
 
 protocol ApiClientProtocol {
-    func getMovie(byId id: Int, completion: @escaping (Result<Movie, ApiError>) -> Void)
+    func getPopularMovies(completion: @escaping (Result<PopularMovies, ApiError>) -> Void)
+    func getMovie(by id: Int, completion: @escaping (Result<SingleMovie, ApiError>) -> Void)
 }
 
 final class ApiClient: ApiClientProtocol {
     private let apiToken = Constants.ApiRequest.token
     
-    func getMovie(byId id: Int, completion: @escaping (Result<Movie, ApiError>) -> Void) {
-        let urlString = Constants.ApiRequest.mainUrl + "movie?search=\(id)&field=id&token=\(apiToken)"
+    func getPopularMovies(completion: @escaping (Result<PopularMovies, ApiError>) -> Void) {
+        let limitRequest = "moviesLimit=\(Constants.downloadDataNumber)"
+        let urlString = "\(Constants.ApiRequest.mainUrl)collection?token=\(apiToken)&search=top_items_all&field=collectionId&\(limitRequest)"
+        
         guard let url = URL(string: urlString) else { return }
         
         AF.request(url).responseData { response in
             if let data = response.value,
                response.response?.statusCode == 200 {
                 do {
-                    let movie = try JSONDecoder().decode(Movie.self, from: data)
-                    completion(.success(movie))
+                    let topSet = try JSONDecoder().decode(PopularMovies.self, from: data)
+                    completion(.success(topSet))
                 } catch {
                     print("Error - \(error.localizedDescription)")
+                    completion(.failure(.wrongData))
+                }
+            } else {
+                completion(.failure(.noData))
+            }
+        }
+    }
+    
+    func getMovie(by id: Int, completion: @escaping (Result<SingleMovie, ApiError>) -> Void) {
+        let urlString = "\(Constants.ApiRequest.mainUrl)movie?search=\(id)&field=id&token=\(apiToken)"
+        
+        guard let url = URL(string: urlString) else { return }
+        
+        AF.request(url).responseData { response in
+            if let data = response.value,
+               response.response?.statusCode == 200 {
+                do {
+                    let movie = try JSONDecoder().decode(SingleMovie.self, from: data)
+                    completion(.success(movie))
+                } catch {
                     completion(.failure(.wrongData))
                 }
             } else {

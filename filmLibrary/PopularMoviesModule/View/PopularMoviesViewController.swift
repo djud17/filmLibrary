@@ -15,17 +15,21 @@ protocol PopularMoviesDelegate: AnyObject {
 final class PopularMoviesViewController: UIViewController {
     private var presenter: PopularMoviesPresenterProtocol
     
+    // MARK: - UI elements
+    
     private let moviesCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        let inset = Constants.Offset.smallCellInset
+        layout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         layout.itemSize = CGSize(width: Constants.Size.imageWidth, height: Constants.Size.imageHeight)
         layout.scrollDirection = .vertical
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        collectionView.alwaysBounceVertical = true
         return collectionView
     }()
+    
+    // MARK: - Inits
     
     init(presenter: PopularMoviesPresenterProtocol) {
         self.presenter = presenter
@@ -38,6 +42,8 @@ final class PopularMoviesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - ViewController Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +52,8 @@ final class PopularMoviesViewController: UIViewController {
         setupLayout()
         getInitialData() 
     }
+    
+    // MARK: - Setups
     
     private func setupView() {
         view.backgroundColor = Constants.Color.orange
