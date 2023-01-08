@@ -17,6 +17,7 @@ enum Constants {
     
     enum Color {
         static let white: UIColor = .white
+        static let black: UIColor = .black
         static let orange = UIColor(red: 0.95, green: 0.46, blue: 0, alpha: 1)
     }
     
@@ -24,12 +25,16 @@ enum Constants {
         static let small: CGFloat = 10
         static let medium: CGFloat = 20
         static let large: CGFloat = 40
+        
+        static let smallCellInset: CGFloat = 10
     }
     
     enum Size {
         static let imageHeight: CGFloat = 170
         static let imageWidth: CGFloat = 120
-        static let smallImageHeight: CGFloat = 130
+        
+        static let smallImageSize: CGFloat = 50
+        static let smallCellHeight: CGFloat = 130
         
         static let cornerRadius: CGFloat = 15
     }
@@ -37,5 +42,6 @@ enum Constants {
     enum FontSize {
         static let titleLabel: CGFloat = 18
         static let textLabel: CGFloat = 17
+        static let factLabel: CGFloat = 15
     }
 }

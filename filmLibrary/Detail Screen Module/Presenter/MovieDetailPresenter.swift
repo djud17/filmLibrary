@@ -73,7 +73,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     func getFacts() -> [String] {
         var randomFacts = [String]()
         
-        for _ in 0..<5 {
+        for _ in 0..<7 {
             let index = Int.random(in: 0..<movieFacts.count)
             let fact = cleanFact(fact: movieFacts[index].value)
             randomFacts.append(fact)

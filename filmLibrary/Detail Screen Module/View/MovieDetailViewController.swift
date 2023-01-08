@@ -5,8 +5,8 @@
 //  Created by Давид Тоноян  on 06.01.2023.
 //
 
+import UIKit
 import SnapKit
-import Kingfisher
 
 protocol MovieDetailDelegate: AnyObject {
     func setupPosterImage(with url: String)
@@ -18,18 +18,17 @@ protocol MovieDetailDelegate: AnyObject {
 }
 
 final class MovieDetailViewController: UIViewController {
-    private var presenter: MovieDetailPresenterProtocol
-    
     // MARK: - UI Elements
 
-    private let backView: UIView = {
+    private lazy var backView: UIView = {
         let view = UIView()
         view.backgroundColor = Constants.Color.white
         view.layer.cornerRadius = Constants.Size.cornerRadius
+        
         return view
     }()
     
-    private let moviePoster: UIImageView = {
+    private lazy var moviePoster: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.backgroundColor = Constants.Color.white
         imageView.layer.cornerRadius = Constants.Size.cornerRadius
@@ -40,59 +39,56 @@ final class MovieDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let movieNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: Constants.FontSize.titleLabel)
-        label.textColor = .black
+    private lazy var movieNameLabel: UILabel = {
+        let label = CustomLabel(withType: .title)
         label.textAlignment = .center
-        label.numberOfLines = 0
+        
         return label
     }()
-    
-    private let movieDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: Constants.FontSize.textLabel)
-        label.textColor = .black
-        label.numberOfLines = 0
-        label.textAlignment = .natural
-        return label
-    }()
-    
-    private let movieInfoLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: Constants.FontSize.textLabel)
-        label.textColor = .black
+    private lazy var movieDescriptionLabel = CustomLabel(withType: .normal)
+    private lazy var movieInfoLabel: UILabel = {
+        let label = CustomLabel(withType: .normal)
         label.textAlignment = .center
+        
         return label
     }()
     
-    private let actorsCollectionView: UICollectionView = {
+    private lazy var actorsCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 50, height: 50)
+        let inset = Constants.Offset.smallCellInset
+        layout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        layout.itemSize = CGSize(width: Constants.Size.smallImageSize, height: Constants.Size.smallImageSize)
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = Constants.Color.orange
-        collectionView.alwaysBounceHorizontal = true
         collectionView.allowsSelection = false
+        
         return collectionView
     }()
     
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: .zero)
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = false
         scrollView.clipsToBounds = true
         scrollView.backgroundColor = Constants.Color.white
+        
         return scrollView
     }()
     
-    private let factsBlock: UIView = {
+    private lazy var factsBlock: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
+    
+    // MARK: - Parameters
+    
+    private var presenter: MovieDetailPresenterProtocol
+    private let smallOffset = Constants.Offset.small
+    private let mediumOffset = Constants.Offset.medium
+    private let largeOffset = Constants.Offset.large
     
     // MARK: - Inits
     
@@ -118,7 +114,6 @@ final class MovieDetailViewController: UIViewController {
         
         setupBackViewHierarchy()
         setupBackViewLayout()
-        
         setupContentViewHierarchy()
         
         presenter.loadData()
@@ -133,32 +128,6 @@ final class MovieDetailViewController: UIViewController {
         actorsCollectionView.register(nibModels: [ActorCollectionViewCellModel.self])
         actorsCollectionView.dataSource = self
     }
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = """
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-anim id est laborum.Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad
-minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
-nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
-qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui
-dolorem eum fugiat quo voluptas nulla pariatur?
-"""
-        label.numberOfLines = 0
-        label.sizeToFit()
-        label.textColor = UIColor.black
-        return label
-    }()
     
     private func setupHierarchy() {
         view.addSubview(backView)
@@ -185,10 +154,7 @@ dolorem eum fugiat quo voluptas nulla pariatur?
     }
     
     private func setupBackViewLayout() {
-        let smallOffset = Constants.Offset.small
-        let mediumOffset = Constants.Offset.medium
-        
-        let imageOffset = 170 / 2
+        let imageOffset = Constants.Size.imageHeight / 2
         moviePoster.snp.makeConstraints { make in
             make.bottom.equalTo(backView.snp.top).offset(imageOffset)
             make.leading.equalTo(backView.snp.leading).offset(mediumOffset)
@@ -216,16 +182,12 @@ dolorem eum fugiat quo voluptas nulla pariatur?
         scrollView.addSubview(contentView)
         contentView.addSubview(movieDescriptionLabel)
         contentView.addSubview(actorsCollectionView)
-        //contentView.addSubview(titleLabel)
         contentView.addSubview(factsBlock)
         
         setupContentViewLayout(for: contentView)
     }
     
     private func setupContentViewLayout(for contentView: UIView) {
-        let smallOffset = Constants.Offset.small
-        let mediumOffset = Constants.Offset.medium
-        
         scrollView.snp.makeConstraints { make in
             make.centerX.equalTo(backView.snp.centerX)
             make.width.equalTo(backView.snp.width)
@@ -246,8 +208,15 @@ dolorem eum fugiat quo voluptas nulla pariatur?
             make.trailing.equalToSuperview().inset(mediumOffset)
         }
         
-        let actorsTitleLabel = createTitleLabel(with: "Актёры:")
+        setupActorsBlockLayout(in: contentView)
+        setupFactsBlockLayout(in: contentView)
+    }
+    
+    private func setupActorsBlockLayout(in contentView: UIView) {
+        let actorsTitleLabel = CustomLabel(withType: .title)
+        actorsTitleLabel.text = "Актёры:"
         contentView.addSubview(actorsTitleLabel)
+        
         actorsTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(movieDescriptionLabel.snp.bottom).offset(mediumOffset)
             make.leading.equalToSuperview().offset(mediumOffset)
@@ -258,10 +227,13 @@ dolorem eum fugiat quo voluptas nulla pariatur?
             make.top.equalTo(actorsTitleLabel.snp.bottom).offset(smallOffset)
             make.leading.equalToSuperview().offset(mediumOffset)
             make.trailing.equalToSuperview().inset(mediumOffset)
-            make.height.equalTo(Constants.Size.smallImageHeight)
+            make.height.equalTo(Constants.Size.smallCellHeight)
         }
-        
-        let factsTitleLabel = createTitleLabel(with: "Интересные факты о фильме:")
+    }
+    
+    private func setupFactsBlockLayout(in contentView: UIView) {
+        let factsTitleLabel = CustomLabel(withType: .title)
+        factsTitleLabel.text = "Интересные факты:"
         contentView.addSubview(factsTitleLabel)
         
         factsTitleLabel.snp.makeConstraints { make in
@@ -276,16 +248,6 @@ dolorem eum fugiat quo voluptas nulla pariatur?
             make.trailing.equalToSuperview().inset(mediumOffset)
             make.bottom.equalToSuperview()
         }
-    }
-    
-    private func createTitleLabel(with text: String) -> UILabel {
-        let titleLabel = UILabel()
-        titleLabel.font = .boldSystemFont(ofSize: Constants.FontSize.titleLabel)
-        titleLabel.textColor = .black
-        titleLabel.textAlignment = .left
-        titleLabel.text = text
-
-        return titleLabel
     }
 }
 
@@ -316,17 +278,17 @@ extension MovieDetailViewController: MovieDetailDelegate {
         var underView = factsBlock.snp.top
         for (index, fact) in facts.enumerated() {
             let factView = createFactView(with: fact)
-            
             factsBlock.addSubview(factView)
             
             factView.snp.makeConstraints { make in
-                make.top.equalTo(underView).offset(10)
+                make.top.equalTo(underView).offset(smallOffset)
                 make.trailing.leading.equalToSuperview()
                 
                 if index == facts.count - 1 {
-                    make.bottom.equalToSuperview().inset(10)
+                    make.bottom.equalToSuperview().inset(smallOffset)
                 }
             }
+            
             underView = factView.snp.bottom
         }
     }
@@ -336,18 +298,14 @@ extension MovieDetailViewController: MovieDetailDelegate {
         view.backgroundColor = Constants.Color.orange
         view.layer.cornerRadius = Constants.Size.cornerRadius
         
-        let factLabel = UILabel()
-        factLabel.font = .italicSystemFont(ofSize: 15)
-        factLabel.textColor = Constants.Color.white
-        factLabel.textAlignment = .center
+        let factLabel = CustomLabel(withType: .fact)
         factLabel.text = fact
-        factLabel.numberOfLines = 0
 
         view.addSubview(factLabel)
         
         factLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(10)
-            make.bottom.trailing.equalToSuperview().inset(10)
+            make.top.leading.equalToSuperview().offset(smallOffset)
+            make.bottom.trailing.equalToSuperview().inset(smallOffset)
         }
         
         return view
