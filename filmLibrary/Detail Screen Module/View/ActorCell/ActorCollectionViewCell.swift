@@ -13,9 +13,13 @@ final class ActorCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        layer.cornerRadius = 10
+        layer.cornerRadius = self.frame.height / 2
+        layer.borderColor = Constants.Color.white.cgColor
+        layer.borderWidth = 2
+        
         actorImageView.tintColor = Constants.Color.white
         actorImageView.backgroundColor = .white
+        actorImageView.contentMode = .scaleAspectFill
     }
 }
 
