@@ -29,7 +29,7 @@ enum Constants {
     enum Size {
         static let imageHeight: CGFloat = 170
         static let imageWidth: CGFloat = 120
-        static let smallImageHeight: CGFloat = 100
+        static let smallImageHeight: CGFloat = 130
         
         static let cornerRadius: CGFloat = 15
     }

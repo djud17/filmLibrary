@@ -17,7 +17,7 @@ final class PopularMoviesViewController: UIViewController {
     
     private let moviesCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.itemSize = CGSize(width: Constants.Size.imageWidth, height: Constants.Size.imageHeight)
         layout.scrollDirection = .vertical
         
