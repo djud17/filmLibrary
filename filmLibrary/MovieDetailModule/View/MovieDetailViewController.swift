@@ -25,6 +25,8 @@ final class MovieDetailViewController: UIViewController {
         view.backgroundColor = Constants.Color.white
         view.layer.cornerRadius = Constants.Size.cornerRadius
         
+        view.setupShadow()
+        
         return view
     }()
     
@@ -35,6 +37,8 @@ final class MovieDetailViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.layer.borderColor = Constants.Color.orange.cgColor
         imageView.layer.borderWidth = Constants.Size.borderWidth
+        
+        imageView.setupShadow()
         
         return imageView
     }()
