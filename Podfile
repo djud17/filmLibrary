@@ -10,6 +10,6 @@ target 'filmLibrary' do
   pod 'Alamofire'
   pod 'SnapKit'
   pod 'SwiftLint'
-  pod 'Kingfisher'
   pod 'RealmSwift'
+  pod 'Kingfisher'
 end
