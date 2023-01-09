@@ -30,6 +30,29 @@ final class PopularMoviesViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var filterButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Фильтры", for: .normal)
+        button.setTitleColor(Constants.Color.orange, for: .normal)
+        button.setTitleColor(Constants.Color.orange.withAlphaComponent(0.5), for: .highlighted)
+        button.backgroundColor = Constants.Color.white
+        
+        button.layer.cornerRadius = Constants.Size.cornerRadius
+        
+        button.setupShadow()
+        
+        return button
+    }()
+    
+    private lazy var loadingActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.color = Constants.Color.white
+        
+        return activityIndicator
+    }()
+    
     // MARK: - Inits
     
     init(presenter: PopularMoviesPresenterProtocol) {
@@ -70,21 +93,37 @@ final class PopularMoviesViewController: UIViewController {
     
     private func setupHierarchy() {
         view.addSubview(moviesCollectionView)
+        view.addSubview(filterButton)
+        view.addSubview(loadingActivityIndicator)
     }
     
     private func setupLayout() {
+        filterButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().inset(10)
+            make.height.equalTo(40)
+        }
+        
         moviesCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(filterButton.snp.bottom).offset(10)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        loadingActivityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
     private func getInitialData() {
+        loadingActivityIndicator.startAnimating()
         presenter.loadData()
     }
 }
 
 extension PopularMoviesViewController: PopularMoviesDelegate {
     func updateView() {
+        loadingActivityIndicator.stopAnimating()
         moviesCollectionView.reloadData()
     }
 }
