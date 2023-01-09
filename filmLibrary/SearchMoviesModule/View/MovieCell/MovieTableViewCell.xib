@@ -34,10 +34,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KzD-ET-x0d">
-                                <rect key="frame" x="85" y="40.333333333333336" width="206" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="3uL-tM-adM"/>
-                                </constraints>
+                                <rect key="frame" x="85" y="40.333333333333336" width="206" height="19.666666666666664"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -47,6 +44,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="KzD-ET-x0d" secondAttribute="trailing" constant="10" id="0s2-x6-3mr"/>
                             <constraint firstItem="KzD-ET-x0d" firstAttribute="top" secondItem="7SJ-OY-Giy" secondAttribute="bottom" constant="5" id="2JM-HK-9Ed"/>
+                            <constraint firstAttribute="bottom" secondItem="KzD-ET-x0d" secondAttribute="bottom" constant="10" id="E9S-eZ-dj0"/>
                             <constraint firstItem="7SJ-OY-Giy" firstAttribute="top" secondItem="LGA-gV-UDD" secondAttribute="top" constant="15" id="NJv-zq-sIW"/>
                             <constraint firstAttribute="trailing" secondItem="7SJ-OY-Giy" secondAttribute="trailing" constant="10" id="QIX-Br-IaB"/>
                             <constraint firstItem="gzs-hV-UfL" firstAttribute="top" secondItem="LGA-gV-UDD" secondAttribute="top" constant="10" id="W20-gH-3Cg"/>
