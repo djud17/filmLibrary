@@ -14,17 +14,17 @@ protocol PopularMoviesPresenterProtocol {
     func loadData()
     func getNumberOfRecords() -> Int
     func getData(for id: Int) -> Movie?
-    func itemPressed(sender: UIViewController, for id: Int)
+    func itemPressed(for id: Int)
 }
 
 final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
     weak var delegate: PopularMoviesDelegate?
-    private let router: PopularMoviesRouterProtocol
+    private let router: RouterProtocol
     
     private let apiClient: ApiClientProtocol
     private var movies: [Movie] = []
     
-    init(apiClient: ApiClientProtocol, router: PopularMoviesRouterProtocol) {
+    init(apiClient: ApiClientProtocol, router: RouterProtocol) {
         self.apiClient = apiClient
         self.router = router
     }
@@ -58,11 +58,11 @@ final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
         }
     }
     
-    func itemPressed(sender: UIViewController, for id: Int) {
+    func itemPressed(for id: Int) {
         let movie = movies[id]
         let movieDetailPresenter = MovieDetailPresenter(movie: movie, apiClient: apiClient)
         let detailViewController = MovieDetailViewController(presenter: movieDetailPresenter)
 
-        router.openDetailScreen(detailViewController)
+        router.openScreen(detailViewController)
     }
 }

@@ -10,6 +10,7 @@ import SnapKit
 
 protocol SearchMoviesDelegate: AnyObject {
     func updateView()
+    func startLoading()
 }
 
 final class SearchMoviesViewController: UIViewController {
@@ -20,7 +21,6 @@ final class SearchMoviesViewController: UIViewController {
         label.textColor = Constants.Color.white
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: Constants.FontSize.large)
-        label.text = "Введите ваш запрос"
         return label
     }()
     
@@ -30,6 +30,7 @@ final class SearchMoviesViewController: UIViewController {
         searchBar.barTintColor = Constants.Color.white
         searchBar.keyboardAppearance = .light
         searchBar.returnKeyType = .search
+        searchBar.placeholder = "Введите название фильма"
         
         return searchBar
     }()
@@ -47,6 +48,22 @@ final class SearchMoviesViewController: UIViewController {
         activityIndicator.style = .large
         activityIndicator.color = Constants.Color.orange
         return activityIndicator
+    }()
+    
+    private lazy var filterButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Фильтры", for: .normal)
+        button.setTitleColor(Constants.Color.orange, for: .normal)
+        button.setTitleColor(Constants.Color.orange.withAlphaComponent(0.5), for: .highlighted)
+        button.backgroundColor = Constants.Color.white
+        
+        button.layer.cornerRadius = Constants.Size.cornerRadius
+        
+        button.setupShadow()
+        
+        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        
+        return button
     }()
     
     // MARK: - Parameters
@@ -76,7 +93,7 @@ final class SearchMoviesViewController: UIViewController {
         setupHierarchy()
         setupLayout()
     }
-    
+
     // MARK: - Setups
     
     private func setupView() {
@@ -97,14 +114,21 @@ final class SearchMoviesViewController: UIViewController {
         view.addSubview(searchBar)
         view.addSubview(moviesTableView)
         view.addSubview(loadingActivityIndicator)
+        view.addSubview(filterButton)
     }
     
     private func setupLayout() {
         let smallOffset = Constants.Offset.small
         let mediumOffset = Constants.Offset.medium
         
+        filterButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(smallOffset)
+            make.leading.equalToSuperview().offset(smallOffset)
+            make.trailing.equalToSuperview().inset(smallOffset)
+        }
+        
         searchRequestLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(filterButton.snp.bottom).offset(mediumOffset)
             make.leading.equalToSuperview().offset(mediumOffset)
             make.trailing.equalToSuperview().inset(mediumOffset)
         }
@@ -125,6 +149,10 @@ final class SearchMoviesViewController: UIViewController {
         loadingActivityIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
+    }
+    
+    @objc private func filterButtonTapped() {
+        presenter.filterButtonPressed(sender: self)
     }
 }
 
@@ -187,6 +215,10 @@ extension SearchMoviesViewController: SearchMoviesDelegate {
         
         present(alertController, animated: true)
     }
+    
+    func startLoading() {
+        loadingActivityIndicator.startAnimating()
+    }
 }
 
 extension SearchMoviesViewController: UISearchBarDelegate {
@@ -194,7 +226,6 @@ extension SearchMoviesViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else { return }
         
         searchRequestLabel.text = "Результаты по запросу: \(searchText)"
-        loadingActivityIndicator.startAnimating()
         presenter.searchData(withText: searchText)
         searchBar.resignFirstResponder()
     }

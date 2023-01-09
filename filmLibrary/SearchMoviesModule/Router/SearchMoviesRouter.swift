@@ -7,16 +7,10 @@
 
 import UIKit
 
-protocol SearchMoviesRouterProtocol {
-    var navigationController: UINavigationController? { get set }
-    
-    func openDetailScreen(_ viewController: UIViewController)
-}
-
-final class SearchMoviesRouter: SearchMoviesRouterProtocol {
+final class SearchMoviesRouter: RouterProtocol {
     weak var navigationController: UINavigationController?
     
-    func openDetailScreen(_ viewController: UIViewController) {
+    func openScreen(_ viewController: UIViewController) {
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
