@@ -18,6 +18,10 @@ enum Constants {
         static let searchScreenTitle = "Поиск"
         static let searchScreenTabImage = "magnifyingglass.circle"
         static let searchSceenSelectedTabImage = "magnifyingglass.circle.fill"
+        
+        static let watchListScreenTitle = "Посмотрю"
+        static let watchListScreenTabImage = "eye"
+        static let watchListSceenSelectedTabImage = "eye.fill"
     }
     
     enum ApiRequest {

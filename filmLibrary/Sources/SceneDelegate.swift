@@ -21,8 +21,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = createTabController()
         let startScreen = createPopularMoviesTab()
         let searchScreen = createSearchTab()
+        let watchListScreen = createWatchListTab()
         
-        tabBarController.viewControllers = [startScreen, searchScreen]
+        tabBarController.viewControllers = [startScreen, searchScreen, watchListScreen]
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
@@ -68,5 +69,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         router.navigationController = searchMoviesController
         
         return searchMoviesController
+    }
+    
+    private func createWatchListTab() -> UIViewController {
+        let watchListVC = WatchListViewController()
+        let watchListViewController = UINavigationController(rootViewController: watchListVC)
+        watchListViewController.setupControllerStyle()
+        
+        let watchListTabBarItem = UITabBarItem(title: Constants.Tab.watchListScreenTitle,
+                                               image: UIImage(systemName: Constants.Tab.watchListScreenTabImage),
+                                               selectedImage: UIImage(systemName: Constants.Tab.watchListSceenSelectedTabImage))
+        watchListViewController.tabBarItem = watchListTabBarItem
+        
+        return watchListViewController
     }
 }
