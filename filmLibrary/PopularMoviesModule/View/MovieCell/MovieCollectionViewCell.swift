@@ -16,6 +16,12 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         
         layer.cornerRadius = Constants.Size.cornerRadius
         cellImage.tintColor = Constants.Color.white
+        
+        setupShadow()
+    }
+    
+    override func prepareForReuse() {
+        cellImage.image = nil
     }
 }
 

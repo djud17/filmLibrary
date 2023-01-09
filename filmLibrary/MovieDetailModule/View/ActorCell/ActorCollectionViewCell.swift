@@ -20,6 +20,12 @@ final class ActorCollectionViewCell: UICollectionViewCell {
         actorImageView.tintColor = Constants.Color.white
         actorImageView.backgroundColor = .white
         actorImageView.contentMode = .scaleAspectFill
+        
+        setupShadow()
+    }
+    
+    override func prepareForReuse() {
+        actorImageView.image = nil
     }
 }
 
