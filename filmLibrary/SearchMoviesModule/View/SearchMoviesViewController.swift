@@ -26,12 +26,7 @@ final class SearchMoviesViewController: UIViewController {
     }()
     
     private lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.searchBarStyle = .prominent
-        searchBar.barTintColor = Constants.Color.white
-        searchBar.keyboardAppearance = .light
-        searchBar.returnKeyType = .search
-        searchBar.placeholder = "Введите название фильма"
+        let searchBar = MovieSearchBar(with: "Введите название фильма")
         
         return searchBar
     }()
@@ -53,16 +48,7 @@ final class SearchMoviesViewController: UIViewController {
     }()
     
     private lazy var filterButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Фильтры", for: .normal)
-        button.setTitleColor(Constants.Color.orange, for: .normal)
-        button.setTitleColor(Constants.Color.orange.withAlphaComponent(0.5), for: .highlighted)
-        button.backgroundColor = Constants.Color.white
-
-        button.layer.cornerRadius = Constants.Size.cornerRadius
-        
-        button.setupShadow()
-        
+        let button = FilterButton(with: "Фильтры")
         button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         
         return button

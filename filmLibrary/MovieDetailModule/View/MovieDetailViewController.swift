@@ -18,6 +18,7 @@ protocol MovieDetailDelegate: AnyObject {
 }
 
 final class MovieDetailViewController: UIViewController {
+    
     // MARK: - UI Elements
 
     private lazy var backView: UIView = {
