@@ -41,6 +41,14 @@ final class SearchMoviesViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var loadingActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.color = Constants.Color.orange
+        return activityIndicator
+    }()
+    
     // MARK: - Parameters
     
     private var presenter: SearchMoviesPresenterProtocol
@@ -81,12 +89,14 @@ final class SearchMoviesViewController: UIViewController {
         searchBar.delegate = self
         
         self.hideKeyboardWhenTappedAround()
+        self.navigationController?.hideKeyboardWhenTappedAround()
     }
     
     private func setupHierarchy() {
         view.addSubview(searchRequestLabel)
         view.addSubview(searchBar)
         view.addSubview(moviesTableView)
+        view.addSubview(loadingActivityIndicator)
     }
     
     private func setupLayout() {
@@ -111,6 +121,10 @@ final class SearchMoviesViewController: UIViewController {
             make.trailing.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+        
+        loadingActivityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 }
 
@@ -123,19 +137,15 @@ extension SearchMoviesViewController: UITableViewDataSource {
         guard let model = presenter.getData(by: indexPath.row) else { return UITableViewCell() }
         
         let imageUrl = model.poster?.previewUrl ?? ""
-        let movieName = model.name
+        let movieNameRating = model.name + " - \(model.rating.kinopoisk)"
         let movieInfo = (model.shortDescription ?? model.description) ?? ""
-        let movie: CellViewAnyModel = MovieTableViewCellModel(imageUrl: imageUrl, movieName: movieName, movieInfo: movieInfo)
+        let movie: CellViewAnyModel = MovieTableViewCellModel(imageUrl: imageUrl, movieName: movieNameRating, movieInfo: movieInfo)
         
         return tableView.dequeueReusableCell(withModel: movie, for: indexPath)
     }
 }
 
 extension SearchMoviesViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter.itemPressed(sender: self, for: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -159,6 +169,7 @@ extension SearchMoviesViewController: UITableViewDelegate {
 
 extension SearchMoviesViewController: SearchMoviesDelegate {
     func updateView() {
+        loadingActivityIndicator.stopAnimating()
         moviesTableView.reloadData()
         
         if presenter.getNumberOfRecords() == 0 {
@@ -183,6 +194,7 @@ extension SearchMoviesViewController: UISearchBarDelegate {
         guard let searchText = searchBar.text else { return }
         
         searchRequestLabel.text = "Результаты по запросу: \(searchText)"
+        loadingActivityIndicator.startAnimating()
         presenter.searchData(withText: searchText)
         searchBar.resignFirstResponder()
     }
