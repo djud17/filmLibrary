@@ -9,7 +9,7 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private let serviceCoordinator = ServiceCoordinator.shared
+    private let serviceCoordinator = ServiceCoordinator.self
     
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
