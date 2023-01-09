@@ -34,7 +34,7 @@ final class MovieDetailViewController: UIViewController {
         imageView.layer.cornerRadius = Constants.Size.cornerRadius
         imageView.clipsToBounds = true
         imageView.layer.borderColor = Constants.Color.orange.cgColor
-        imageView.layer.borderWidth = 4
+        imageView.layer.borderWidth = Constants.Size.borderWidth
         
         return imageView
     }()
@@ -62,6 +62,7 @@ final class MovieDetailViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = Constants.Color.orange
+        collectionView.layer.cornerRadius = Constants.Size.cornerRadius
         collectionView.allowsSelection = false
         
         return collectionView
@@ -189,9 +190,9 @@ final class MovieDetailViewController: UIViewController {
     
     private func setupContentViewLayout(for contentView: UIView) {
         scrollView.snp.makeConstraints { make in
+            make.top.equalTo(movieInfoLabel.snp.bottom).offset(largeOffset)
             make.centerX.equalTo(backView.snp.centerX)
             make.width.equalTo(backView.snp.width)
-            make.top.equalTo(moviePoster.snp.bottom).offset(mediumOffset)
             make.bottom.equalTo(backView.snp.bottom)
         }
         

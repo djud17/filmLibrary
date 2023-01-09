@@ -7,19 +7,16 @@
 
 import Foundation
 
-// MARK: - PopularMovies
-struct PopularMovies: Decodable {
-    let movies: [Movie]
-}
-
 // MARK: - Movie
 struct Movie: Decodable {
-    let poster: Poster
+    let poster: Poster?
     let rating: Rating
-    let movieLength, id: Int
+    let movieLength: Int?
+    let id: Int
     let type: MovieType
-    let name, description: String
-    let year: Int
+    let name: String
+    let description: String?
+    let year: Int?
     let shortDescription: String?
 }
 

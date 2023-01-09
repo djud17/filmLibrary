@@ -17,7 +17,7 @@ final class PopularMoviesViewController: UIViewController {
     
     // MARK: - UI elements
     
-    private let moviesCollectionView: UICollectionView = {
+    private lazy var moviesCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         let inset = Constants.Offset.smallCellInset
         layout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
@@ -26,6 +26,7 @@ final class PopularMoviesViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
+        
         return collectionView
     }()
     
@@ -34,7 +35,7 @@ final class PopularMoviesViewController: UIViewController {
     init(presenter: PopularMoviesPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
-        
+
         self.presenter.delegate = self
     }
     
@@ -96,7 +97,7 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let model = presenter.getData(for: indexPath.row) else { return UICollectionViewCell() }
         
-        let imageUrl = model.poster.previewUrl
+        let imageUrl = model.poster?.previewUrl ?? ""
         let movie: CellViewAnyModel = MovieCollectionViewCellModel(imageUrl: imageUrl)
         
         return collectionView.dequeueReusableCell(withModel: movie, for: indexPath)

@@ -8,16 +8,15 @@
 import UIKit
 
 protocol PopularMoviesRouterProtocol {
-    var navigationController: UINavigationController? { get }
+    var navigationController: UINavigationController? { get set }
     
     func openDetailScreen(_ viewController: UIViewController)
 }
 
 final class PopularMoviesRouter: PopularMoviesRouterProtocol {
-    var navigationController: UINavigationController?
+    weak var navigationController: UINavigationController?
     
     func openDetailScreen(_ viewController: UIViewController) {
-        navigationController?.modalPresentationStyle = .formSheet
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
