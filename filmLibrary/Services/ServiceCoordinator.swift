@@ -8,15 +8,11 @@
 import Foundation
 
 protocol ServiceCoordinatorProtocol {
-    static var shared: ServiceCoordinatorProtocol { get }
-    
-    var apiClient: ApiClientProtocol { get }
-    var movieFilter: MovieFilterProtocol { get }
+    static var apiClient: ApiClientProtocol { get }
+    static var movieFilter: MovieFilterProtocol { get }
 }
 
 final class ServiceCoordinator: ServiceCoordinatorProtocol {
-    static let shared: ServiceCoordinatorProtocol = ServiceCoordinator()
-    
-    let apiClient: ApiClientProtocol = ApiClient()
-    let movieFilter: MovieFilterProtocol = MovieFilter()
+    static let apiClient: ApiClientProtocol = ApiClient()
+    static let movieFilter: MovieFilterProtocol = MovieFilter()
 }

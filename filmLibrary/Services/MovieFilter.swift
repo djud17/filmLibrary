@@ -8,15 +8,15 @@
 import Foundation
 
 protocol MovieFilterProtocol {
-    var rating: Range<Double>? { get set }
-    var year: Range<Int>? { get set }
+    var rating: ClosedRange<Double>? { get set }
+    var year: ClosedRange<Int>? { get set }
     
     func getFiltersRequest() -> String
 }
 
 final class MovieFilter: MovieFilterProtocol {
-    var rating: Range<Double>?
-    var year: Range<Int>?
+    var rating: ClosedRange<Double>?
+    var year: ClosedRange<Int>?
     
     func getFiltersRequest() -> String {
         var resultRequest = ""
