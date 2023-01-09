@@ -15,18 +15,19 @@ protocol SearchMoviesPresenterProtocol {
     func getData(by id: Int) -> Movie?
     func loadMoreData()
     func itemPressed(sender: UIViewController, for id: Int)
+    func filterButtonPressed(sender: UIViewController)
 }
 
 final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
     var delegate: SearchMoviesDelegate?
     private let apiClient: ApiClientProtocol
-    private let router: SearchMoviesRouterProtocol
+    private let router: RouterProtocol
     private var movies: [Movie] = []
     private var pages = 1
     private var currentPage = 1
     private var searchRequest = ""
     
-    init(apiClient: ApiClientProtocol, router: SearchMoviesRouterProtocol) {
+    init(apiClient: ApiClientProtocol, router: RouterProtocol) {
         self.apiClient = apiClient
         self.router = router
     }
@@ -36,6 +37,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
     }
     
     func searchData(withText searchText: String) {
+        delegate?.startLoading()
         searchRequest = searchText
         
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
@@ -94,6 +96,26 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
         let movieDetailPresenter = MovieDetailPresenter(movie: movie, apiClient: apiClient)
         let detailViewController = MovieDetailViewController(presenter: movieDetailPresenter)
 
-        router.openDetailScreen(detailViewController)
+        router.openScreen(detailViewController)
+    }
+    
+    func filterButtonPressed(sender: UIViewController) {
+        let movieFilter = ServiceCoordinator.movieFilter
+        let filterPresenter: FilterPresenterProtocol = FilterPresenter(movieFilter: movieFilter) { [weak self] in
+            guard let searchRequest = self?.searchRequest else { return }
+            
+            self?.searchData(withText: searchRequest)
+        }
+        
+        let filterViewController = FilterViewController(presenter: filterPresenter)
+        filterViewController.modalPresentationStyle = .pageSheet
+        
+        if #available(iOS 15.0, *) {
+            if let sheet = filterViewController.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+            }
+        }
+        
+        sender.present(filterViewController, animated: true)
     }
 }

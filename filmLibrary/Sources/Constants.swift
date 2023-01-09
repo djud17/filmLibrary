@@ -51,10 +51,10 @@ enum Constants {
     }
     
     enum FontSize {
-        static let titleLabel: CGFloat = 18
+        static let titleLabel: CGFloat = 20
         static let textLabel: CGFloat = 17
         static let factLabel: CGFloat = 15
         
-        static let large: CGFloat = 20
+        static let large: CGFloat = 25
     }
 }

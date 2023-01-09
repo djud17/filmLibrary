@@ -30,6 +30,15 @@ final class PopularMoviesViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var loadingActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.color = Constants.Color.white
+        
+        return activityIndicator
+    }()
+    
     // MARK: - Inits
     
     init(presenter: PopularMoviesPresenterProtocol) {
@@ -70,21 +79,28 @@ final class PopularMoviesViewController: UIViewController {
     
     private func setupHierarchy() {
         view.addSubview(moviesCollectionView)
+        view.addSubview(loadingActivityIndicator)
     }
     
-    private func setupLayout() {
+    private func setupLayout() {        
         moviesCollectionView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        loadingActivityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
     private func getInitialData() {
+        loadingActivityIndicator.startAnimating()
         presenter.loadData()
     }
 }
 
 extension PopularMoviesViewController: PopularMoviesDelegate {
     func updateView() {
+        loadingActivityIndicator.stopAnimating()
         moviesCollectionView.reloadData()
     }
 }
@@ -106,7 +122,7 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
 
 extension PopularMoviesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter.itemPressed(sender: self, for: indexPath.row)
+        presenter.itemPressed(for: indexPath.row)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

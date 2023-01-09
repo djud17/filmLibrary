@@ -49,7 +49,9 @@ final class MovieDetailViewController: UIViewController {
         
         return label
     }()
+    
     private lazy var movieDescriptionLabel = CustomLabel(withType: .normal)
+    
     private lazy var movieInfoLabel: UILabel = {
         let label = CustomLabel(withType: .normal)
         label.textAlignment = .center

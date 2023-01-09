@@ -20,11 +20,13 @@ protocol ApiClientProtocol {
 
 final class ApiClient: ApiClientProtocol {
     private let apiToken = Constants.ApiRequest.token
+    private let movieFilter = ServiceCoordinator.movieFilter
     
     func getPopularMovies(completion: @escaping (Result<PopularMovies, ApiError>) -> Void) {
         let limitRequest = "&moviesLimit=\(Constants.downloadDataNumber)"
         let sortType = "&sortField=rating.kp&sortType=-1"
-        let urlString = "\(Constants.ApiRequest.mainUrl)collection?token=\(apiToken)&search=top_items_all&field=collectionId\(sortType)\(limitRequest)"
+        var urlString = "\(Constants.ApiRequest.mainUrl)collection?token=\(apiToken)&search=top_items_all&field=collectionId"
+        urlString += "\(sortType)\(limitRequest)"
         
         guard let url = URL(string: urlString) else { return }
         
@@ -67,15 +69,17 @@ final class ApiClient: ApiClientProtocol {
     func searchMovie(for name: String, in page: Int, completion: @escaping (Result<MovieSearch, ApiError>) -> Void) {
         let pageRequest = "&page=\(page)"
         let sortType = "&sortField=rating.kp&sortType=-1"
+        let filterRequest = movieFilter.getFiltersRequest()
+        
         var urlString = "\(Constants.ApiRequest.mainUrl)movie?search=\(name)&field=name&isStrict=false"
         urlString += "&token=\(apiToken)"
         urlString += pageRequest
+        urlString += filterRequest
         urlString += sortType
         urlString += "&limit=\(Constants.downloadDataNumber)"
         
-        let strUrlFormatted = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
-        
-        guard let url = URL(string: strUrlFormatted) else { return }
+        guard let strUrlFormatted = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
+              let url = URL(string: strUrlFormatted) else { return }
         
         AF.request(url).responseData { response in
             if let data = response.value,

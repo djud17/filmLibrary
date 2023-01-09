@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol PopularMoviesRouterProtocol {
+protocol RouterProtocol {
     var navigationController: UINavigationController? { get set }
     
-    func openDetailScreen(_ viewController: UIViewController)
+    func openScreen(_ viewController: UIViewController)
 }
 
-final class PopularMoviesRouter: PopularMoviesRouterProtocol {
+final class PopularMoviesRouter: RouterProtocol {
     weak var navigationController: UINavigationController?
     
-    func openDetailScreen(_ viewController: UIViewController) {
+    func openScreen(_ viewController: UIViewController) {
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
