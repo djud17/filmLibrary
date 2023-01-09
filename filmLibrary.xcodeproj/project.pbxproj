@@ -222,6 +222,7 @@
 				257E35DA2967398100E89695 /* Sources */,
 				257E35D72967392700E89695 /* Services */,
 				257E35D42967390400E89695 /* Model */,
+				25CB7516296CAAD300BDBCA0 /* View */,
 				25AA67AC29673A8E00F5989F /* PopularMoviesModule */,
 				25AA67BA2967823100F5989F /* MovieDetailModule */,
 				25459A91296B07B300E73EC5 /* SearchMoviesModule */,
@@ -244,7 +245,6 @@
 			children = (
 				25AA67B92967724F00F5989F /* MovieCell */,
 				257E35A729672F0100E89695 /* PopularMoviesViewController.swift */,
-				25BA232A296AFF1700B1671A /* CustomLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -363,6 +363,14 @@
 				25CB7514296CA19000BDBCA0 /* FilterPresenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		25CB7516296CAAD300BDBCA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				25BA232A296AFF1700B1671A /* CustomLabel.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		BDB562EF2A5D0C69F04599F1 /* Frameworks */ = {

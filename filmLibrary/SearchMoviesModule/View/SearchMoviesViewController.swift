@@ -21,6 +21,7 @@ final class SearchMoviesViewController: UIViewController {
         label.textColor = Constants.Color.white
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: Constants.FontSize.large)
+        
         return label
     }()
     
@@ -47,6 +48,7 @@ final class SearchMoviesViewController: UIViewController {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
         activityIndicator.color = Constants.Color.orange
+        
         return activityIndicator
     }()
     
@@ -56,7 +58,7 @@ final class SearchMoviesViewController: UIViewController {
         button.setTitleColor(Constants.Color.orange, for: .normal)
         button.setTitleColor(Constants.Color.orange.withAlphaComponent(0.5), for: .highlighted)
         button.backgroundColor = Constants.Color.white
-        
+
         button.layer.cornerRadius = Constants.Size.cornerRadius
         
         button.setupShadow()
@@ -105,8 +107,8 @@ final class SearchMoviesViewController: UIViewController {
         
         searchBar.delegate = self
         
-        self.hideKeyboardWhenTappedAround()
-        self.navigationController?.hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTappedAround()
+        navigationController?.hideKeyboardWhenTappedAround()
     }
     
     private func setupHierarchy() {

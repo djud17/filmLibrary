@@ -7,12 +7,7 @@
 
 import Foundation
 
-protocol ServiceCoordinatorProtocol {
-    static var apiClient: ApiClientProtocol { get }
-    static var movieFilter: MovieFilterProtocol { get }
-}
-
-final class ServiceCoordinator: ServiceCoordinatorProtocol {
+final class ServiceCoordinator {
     static let apiClient: ApiClientProtocol = ApiClient()
     static let movieFilter: MovieFilterProtocol = MovieFilter()
 }

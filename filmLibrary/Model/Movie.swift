@@ -13,7 +13,6 @@ struct Movie: Decodable {
     let rating: Rating
     let movieLength: Int?
     let id: Int
-    let type: MovieType
     let name: String
     let description: String?
     let year: Int?
@@ -32,13 +31,4 @@ struct Rating: Decodable {
     enum CodingKeys: String, CodingKey {
         case kinopoisk = "kp"
     }
-}
-
-enum MovieType: String, Decodable {
-    case movie = "movie"
-    case tvSeries = "tv-series"
-    case cartoon = "cartoon"
-    case anime = "anime"
-    case animatedSeries = "animated-series"
-    case tvShow = "tv-show"
 }

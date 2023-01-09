@@ -35,8 +35,6 @@ struct ActorCollectionViewCellModel {
 
 extension ActorCollectionViewCellModel: CellViewModel {
     func setup(cell: ActorCollectionViewCell) {
-        DispatchQueue.main.async {
-            cell.actorImageView.setupImage(with: imageUrl)
-        }
+        cell.actorImageView.setupImage(with: imageUrl)
     }
 }

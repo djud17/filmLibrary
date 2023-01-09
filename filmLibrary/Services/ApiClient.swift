@@ -78,9 +78,8 @@ final class ApiClient: ApiClientProtocol {
         urlString += sortType
         urlString += "&limit=\(Constants.downloadDataNumber)"
         
-        let strUrlFormatted = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
-        
-        guard let url = URL(string: strUrlFormatted) else { return }
+        guard let strUrlFormatted = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed),
+              let url = URL(string: strUrlFormatted) else { return }
         
         AF.request(url).responseData { response in
             if let data = response.value,

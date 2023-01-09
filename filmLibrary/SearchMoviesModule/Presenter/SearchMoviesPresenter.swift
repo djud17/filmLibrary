@@ -106,6 +106,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
             
             self?.searchData(withText: searchRequest)
         }
+        
         let filterViewController = FilterViewController(presenter: filterPresenter)
         filterViewController.modalPresentationStyle = .pageSheet
         
