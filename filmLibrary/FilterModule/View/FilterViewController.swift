@@ -8,10 +8,6 @@
 import UIKit
 import SnapKit
 
-protocol FilterDelegate: AnyObject {
-    
-}
-
 final class FilterViewController: UIViewController {
     
     // MARK: - Parameters
@@ -107,8 +103,6 @@ final class FilterViewController: UIViewController {
     init(presenter: FilterPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
-        
-        self.presenter.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -189,6 +183,8 @@ final class FilterViewController: UIViewController {
         (year, rating) = presenter.getFilterValues()
     }
     
+    // MARK: - Actions
+    
     @objc private func ratingSliderValueChanged() {
         let value = ratingSlider.value
         let roundedValue = round(value * 2.0) * 0.5
@@ -211,8 +207,4 @@ final class FilterViewController: UIViewController {
         
         dismiss(animated: true)
     }
-}
-
-extension FilterViewController: FilterDelegate {
-    
 }

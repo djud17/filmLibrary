@@ -15,6 +15,8 @@ protocol MovieFilterProtocol {
 }
 
 final class MovieFilter: MovieFilterProtocol {
+    static let shared = MovieFilter()
+    
     var rating: ClosedRange<Double>?
     var year: ClosedRange<Int>?
     

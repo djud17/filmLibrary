@@ -19,6 +19,8 @@ protocol ApiClientProtocol {
 }
 
 final class ApiClient: ApiClientProtocol {
+    static let shared = ApiClient()
+    
     private let apiToken = Constants.ApiRequest.token
     private let movieFilter = ServiceCoordinator.movieFilter
     

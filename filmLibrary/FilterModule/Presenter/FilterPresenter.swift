@@ -8,15 +8,11 @@
 import Foundation
 
 protocol FilterPresenterProtocol {
-    var delegate: FilterDelegate? { get set }
-    
     func getFilterValues() -> (Int, Double)
     func filterSubmit(yearRange: ClosedRange<Int>?, ratingRange: ClosedRange<Double>?)
 }
 
 final class FilterPresenter: FilterPresenterProtocol {
-    weak var delegate: FilterDelegate?
-    
     private var movieFilter: MovieFilterProtocol
     private var completion: () -> Void
     
