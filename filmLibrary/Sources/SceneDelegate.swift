@@ -9,7 +9,7 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private let serviceCoordinator = ServiceCoordinator.self
+    private let apiClient = ServiceCoordinator.apiClient
     
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -40,8 +40,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func createPopularMoviesTab() -> UIViewController {
-        let router = PopularMoviesRouter()
-        let popularMoviesPresenter = PopularMoviesPresenter(apiClient: serviceCoordinator.apiClient, router: router)
+        var router: RouterProtocol = PopularMoviesRouter()
+        let popularMoviesPresenter: PopularMoviesPresenterProtocol = PopularMoviesPresenter(apiClient: apiClient,
+                                                                                            router: router)
         let popularMoviesVC = PopularMoviesViewController(presenter: popularMoviesPresenter)
         let popularMoviesController = UINavigationController(rootViewController: popularMoviesVC)
         popularMoviesController.setupControllerStyle()
@@ -56,8 +57,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func createSearchTab() -> UIViewController {
-        let router = SearchMoviesRouter()
-        let searchPresenter = SearchMoviesPresenter(apiClient: serviceCoordinator.apiClient, router: router)
+        var router: RouterProtocol = SearchMoviesRouter()
+        let searchPresenter: SearchMoviesPresenterProtocol = SearchMoviesPresenter(apiClient: apiClient,
+                                                                                   router: router)
         let searchMoviesVC = SearchMoviesViewController(presenter: searchPresenter)
         let searchMoviesController = UINavigationController(rootViewController: searchMoviesVC)
         searchMoviesController.setupControllerStyle()
@@ -72,7 +74,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func createWatchListTab() -> UIViewController {
-        let watchListVC = WatchListViewController()
+        let watchListPresenter: WatchListPresenterProtocol = WatchListPresenter()
+        let watchListVC = WatchListViewController(presenter: watchListPresenter)
         let watchListViewController = UINavigationController(rootViewController: watchListVC)
         watchListViewController.setupControllerStyle()
         
