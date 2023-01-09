@@ -202,6 +202,8 @@ extension SearchMoviesViewController: SearchMoviesDelegate {
         
         if presenter.getNumberOfRecords() == 0 {
             showNoDataMessage()
+        } else {
+            moviesTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }
     

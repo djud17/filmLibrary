@@ -8,12 +8,15 @@
 import UIKit
 import SnapKit
 
+protocol FilterDelegate: AnyObject {
+    
+}
+
 final class FilterViewController: UIViewController {
     
     // MARK: - Parameters
     
-    private var movieFilter: MovieFilterProtocol
-    private var completion: () -> Void
+    private var presenter: FilterPresenterProtocol
     
     // MARK: - UI elements
     
@@ -30,6 +33,7 @@ final class FilterViewController: UIViewController {
     private var rating: Double = 0 {
         didSet {
             ratingTitleLabel.text = "Рейтинг фильма от \(rating)"
+            ratingSlider.value = Float(rating)
         }
     }
     
@@ -57,6 +61,7 @@ final class FilterViewController: UIViewController {
     private var year: Int = 0 {
         didSet {
             yearTitleLabel.text = "Год выпуска фильма от \(year)"
+            yearSlider.value = Float(year)
         }
     }
     
@@ -99,10 +104,11 @@ final class FilterViewController: UIViewController {
     
     // MARK: - Inits
     
-    init(movieFilter: MovieFilterProtocol, completion: @escaping () -> Void) {
-        self.movieFilter = movieFilter
-        self.completion = completion
+    init(presenter: FilterPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
+        
+        self.presenter.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -117,7 +123,7 @@ final class FilterViewController: UIViewController {
         setupView()
         setupHierarchy()
         setupLayout()
-        setupInitialFilters()
+        setupFilterValues()
     }
     
     // MARK: - Setups
@@ -179,15 +185,8 @@ final class FilterViewController: UIViewController {
         }
     }
     
-    private func setupInitialFilters() {
-        if let year = movieFilter.year?.lowerBound {
-            yearSlider.value = Float(year)
-            self.year = year
-        }
-        if let rating = movieFilter.rating?.lowerBound {
-            ratingSlider.value = Float(rating)
-            self.rating = rating
-        }
+    private func setupFilterValues() {
+        (year, rating) = presenter.getFilterValues()
     }
     
     @objc private func ratingSliderValueChanged() {
@@ -195,7 +194,6 @@ final class FilterViewController: UIViewController {
         let roundedValue = round(value * 2.0) * 0.5
         
         rating = Double(roundedValue)
-        ratingSlider.value = roundedValue
     }
     
     @objc private func yearSliderValueChanged() {
@@ -203,17 +201,18 @@ final class FilterViewController: UIViewController {
         let roundedValue = round(value)
         
         year = Int(roundedValue)
-        yearSlider.value = roundedValue
     }
     
     @objc private func submitFiltersButtonTapped() {
         let maxYear = Int(yearSlider.maximumValue)
-        movieFilter.year = year...maxYear
-        
         let maxRating = Double(ratingSlider.maximumValue)
-        movieFilter.rating = rating...maxRating
         
-        completion()
+        presenter.filterSubmit(yearRange: year...maxYear, ratingRange: rating...maxRating)
+        
         dismiss(animated: true)
     }
+}
+
+extension FilterViewController: FilterDelegate {
+    
 }

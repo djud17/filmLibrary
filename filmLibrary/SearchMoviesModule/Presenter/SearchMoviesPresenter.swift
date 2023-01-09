@@ -101,11 +101,12 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
     
     func filterButtonPressed(sender: UIViewController) {
         let movieFilter = ServiceCoordinator.movieFilter
-        let filterViewController = FilterViewController(movieFilter: movieFilter) { [weak self] in
+        let filterPresenter: FilterPresenterProtocol = FilterPresenter(movieFilter: movieFilter) { [weak self] in
             guard let searchRequest = self?.searchRequest else { return }
             
             self?.searchData(withText: searchRequest)
         }
+        let filterViewController = FilterViewController(presenter: filterPresenter)
         filterViewController.modalPresentationStyle = .pageSheet
         
         if #available(iOS 15.0, *) {
