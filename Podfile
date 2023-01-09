@@ -11,4 +11,5 @@ target 'filmLibrary' do
   pod 'SnapKit'
   pod 'SwiftLint'
   pod 'Kingfisher'
+  pod 'RealmSwift'
 end

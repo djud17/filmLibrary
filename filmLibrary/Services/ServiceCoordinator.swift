@@ -8,6 +8,6 @@
 import Foundation
 
 final class ServiceCoordinator {
-    static let apiClient: ApiClientProtocol = ApiClient()
-    static let movieFilter: MovieFilterProtocol = MovieFilter()
+    static let apiClient: ApiClientProtocol = ApiClient.shared
+    static let movieFilter: MovieFilterProtocol = MovieFilter.shared
 }
