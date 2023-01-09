@@ -8,9 +8,13 @@
 import Foundation
 
 protocol ServiceCoordinatorProtocol {
-    static var apiClient: ApiClientProtocol { get }
+    static var shared: ServiceCoordinatorProtocol { get }
+    
+    var apiClient: ApiClientProtocol { get }
 }
 
 final class ServiceCoordinator: ServiceCoordinatorProtocol {
-    static let apiClient: ApiClientProtocol = ApiClient()
+    static let shared: ServiceCoordinatorProtocol = ServiceCoordinator()
+    
+    let apiClient: ApiClientProtocol = ApiClient()
 }

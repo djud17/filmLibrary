@@ -9,6 +9,7 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    private let serviceCoordinator = ServiceCoordinator.shared
     
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -39,7 +40,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func createPopularMoviesTab() -> UIViewController {
         let router = PopularMoviesRouter()
-        let popularMoviesPresenter = PopularMoviesPresenter(apiClient: ServiceCoordinator.apiClient, router: router)
+        let popularMoviesPresenter = PopularMoviesPresenter(apiClient: serviceCoordinator.apiClient, router: router)
         let popularMoviesVC = PopularMoviesViewController(presenter: popularMoviesPresenter)
         let popularMoviesController = UINavigationController(rootViewController: popularMoviesVC)
         popularMoviesController.setupControllerStyle()
@@ -55,7 +56,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func createSearchTab() -> UIViewController {
         let router = SearchMoviesRouter()
-        let searchPresenter = SearchMoviesPresenter(apiClient: ServiceCoordinator.apiClient, router: router)
+        let searchPresenter = SearchMoviesPresenter(apiClient: serviceCoordinator.apiClient, router: router)
         let searchMoviesVC = SearchMoviesViewController(presenter: searchPresenter)
         let searchMoviesController = UINavigationController(rootViewController: searchMoviesVC)
         searchMoviesController.setupControllerStyle()
