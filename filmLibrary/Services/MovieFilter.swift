@@ -19,7 +19,7 @@ final class MovieFilter: MovieFilterProtocol {
     var year: ClosedRange<Int>?
     
     func resetFilter() {
-        rating = Constants.Filter.minimumRating...Constants.Filter.maximumRating
-        year = Constants.Filter.minimumYear...Constants.Filter.maximumYear
+        rating = Constants.Filter.minRating...Constants.Filter.maxRating
+        year = Constants.Filter.minYear...Constants.Filter.maxYear
     }
 }
