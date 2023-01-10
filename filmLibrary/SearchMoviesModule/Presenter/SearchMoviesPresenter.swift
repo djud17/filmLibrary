@@ -19,7 +19,7 @@ protocol SearchMoviesPresenterProtocol: SearchMoviesDataProtocol {
     var delegate: SearchMoviesDelegate? { get set }
     
     func itemPressed(sender: UIViewController, for id: Int)
-    func filterButtonPressed(sender: UIViewController)
+    func filterButtonPressed(sender: UIViewController, searchText: String)
     func errorAppeared()
 }
 
@@ -65,12 +65,17 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
                     self?.pages = success.pages
                     self?.movies = success.results
                 case .failure(let error):
-                    let message = "Error - \(error.localizedDescription)"
+                    let message = "Ошибка во время поиска фильма - \(error.localizedDescription)"
                     self?.showError(with: message)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.delegate?.updateView()
+                    
+                    guard let movies = self?.movies,
+                          !movies.isEmpty else { return }
+                    
+                    self?.delegate?.scrollTableViewTop()
                 }
             }
         }
@@ -89,7 +94,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
                     case .success(let success):
                         self?.movies += success.results
                     case .failure(let error):
-                        let message = "Error - \(error.localizedDescription)"
+                        let message = "Ошибка во время загрузки следующей страницы поиска фильма - \(error.localizedDescription)"
                         self?.showError(with: message)
                     }
                     
@@ -117,7 +122,8 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
         router.openScreen(detailViewController)
     }
     
-    func filterButtonPressed(sender: UIViewController) {
+    func filterButtonPressed(sender: UIViewController, searchText: String) {
+        self.searchRequest = searchText
         let movieFilter = ServiceCoordinator.webMovieFilter
         let filterPresenter: FilterPresenterProtocol = FilterPresenter(movieFilter: movieFilter) { [weak self] in
             guard let searchRequest = self?.searchRequest else { return }

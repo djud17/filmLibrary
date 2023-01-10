@@ -70,6 +70,10 @@ final class WatchListPresenter: WatchListPresenterProtocol {
             
             self?.watchListMovies = movies            
             self?.updateDataWithFilters()
+            
+            if !movies.isEmpty {
+                self?.delegate?.scrollTableViewTop()
+            }
         }
     }
     
@@ -142,7 +146,7 @@ final class WatchListPresenter: WatchListPresenterProtocol {
             try storage.deleteFrom(by: movieId)
             watchListMovies.remove(at: id)
         } catch {
-            let message = "Error - \(error.localizedDescription)"
+            let message = "Ошибка во время удаления объекта из хранилища - \(error.localizedDescription)"
             showError(with: message)
         }
     }

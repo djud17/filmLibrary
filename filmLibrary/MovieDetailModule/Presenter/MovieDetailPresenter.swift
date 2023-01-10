@@ -75,7 +75,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
                     self?.actors = success.persons
                     self?.movieFacts = success.facts
                 case .failure(let error):
-                    let message = "Error - \(error.localizedDescription)"
+                    let message = "Ошибка во время загрузки детальной информации о фильме - \(error.localizedDescription)"
                     self?.showError(with: message)
                 }
                 
@@ -145,7 +145,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
         do {
             try storage.deleteFrom(by: movie.id)
         } catch {
-            let message = "Error - \(error.localizedDescription)"
+            let message = "Ошибка во время удаления объекта из хранилища - \(error.localizedDescription)"
             showError(with: message)
         }
     }
@@ -154,7 +154,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
         do {
             try storage.writeTo(object: movie)
         } catch {
-            let message = "Error - \(error.localizedDescription)"
+            let message = "Ошибка во время записи объекта в хранилище - \(error.localizedDescription)"
             showError(with: message)
         }
     }

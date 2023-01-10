@@ -12,6 +12,7 @@ protocol SearchMoviesDelegate: AnyObject {
     func updateView()
     func startLoading()
     func showErrorAlert(alertController: UIAlertController)
+    func scrollTableViewTop()
 }
 
 final class SearchMoviesViewController: UIViewController {
@@ -60,7 +61,6 @@ final class SearchMoviesViewController: UIViewController {
     
     private var presenter: SearchMoviesPresenterProtocol
     private var needLoadMoreData = false
-    private let errorManager = ServiceCoordinator.errorManager
     
     // MARK: - Inits
     
@@ -89,6 +89,10 @@ final class SearchMoviesViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = Constants.Color.orange
+        
+        navigationItem.title = "Поиск"
+        navigationItem.titleView?.tintColor = Constants.Color.white
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         moviesTableView.dataSource = self
         moviesTableView.delegate = self
@@ -143,7 +147,9 @@ final class SearchMoviesViewController: UIViewController {
     }
     
     @objc private func filterButtonTapped() {
-        presenter.filterButtonPressed(sender: self)
+        guard let searchText = searchBar.text else { return }
+        
+        presenter.filterButtonPressed(sender: self, searchText: searchText)
     }
 }
 
@@ -193,8 +199,6 @@ extension SearchMoviesViewController: SearchMoviesDelegate {
         
         if presenter.getNumberOfRecords() == 0 {
             presenter.errorAppeared()
-        } else {
-            moviesTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }
     
@@ -204,6 +208,10 @@ extension SearchMoviesViewController: SearchMoviesDelegate {
     
     func showErrorAlert(alertController: UIAlertController) {
         present(alertController, animated: true)
+    }
+    
+    func scrollTableViewTop() {
+        moviesTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 }
 

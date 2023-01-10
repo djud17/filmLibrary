@@ -55,5 +55,7 @@ final class FilterPresenter: FilterPresenterProtocol {
     
     func filterReset() {
         movieFilter.resetFilter()
+        
+        completion()
     }
 }

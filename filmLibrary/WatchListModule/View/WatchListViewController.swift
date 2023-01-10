@@ -11,6 +11,7 @@ import SnapKit
 protocol WatchListDelegate: AnyObject {
     func showErrorAlert(alertController: UIAlertController)
     func updateView()
+    func scrollTableViewTop()
 }
 
 final class WatchListViewController: UIViewController {
@@ -76,7 +77,7 @@ final class WatchListViewController: UIViewController {
         view.backgroundColor = Constants.Color.orange
         
         navigationItem.title = "Хочу посмотреть"
-        navigationItem.titleView?.tintColor = .white
+        navigationItem.titleView?.tintColor = Constants.Color.white
         navigationController?.navigationBar.prefersLargeTitles = true
         
         moviesTableView.dataSource = self
@@ -134,6 +135,10 @@ extension WatchListViewController: WatchListDelegate {
     func updateView() {
         moviesTableView.reloadData()
     }
+    
+    func scrollTableViewTop() {
+        moviesTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    }
 }
 
 extension WatchListViewController: UITableViewDataSource {
@@ -175,5 +180,9 @@ extension WatchListViewController: UITableViewDelegate {
 extension WatchListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         presenter.searchTextChange(searchText: searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }

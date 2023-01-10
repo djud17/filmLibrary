@@ -236,5 +236,7 @@ final class FilterViewController: UIViewController {
         presenter.filterReset()
         year = Int(yearSlider.minimumValue)
         rating = ratingSlider.minimumValue
+        
+        dismiss(animated: true)
     }
 }

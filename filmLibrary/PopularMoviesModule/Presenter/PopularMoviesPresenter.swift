@@ -53,7 +53,7 @@ final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
                 case .success(let success):
                     self?.movies = success.movies
                 case .failure(let error):
-                    let message = "Error - \(error.localizedDescription)"
+                    let message = "Ошибка во время загрузки списка топ фильмов - \(error.localizedDescription)"
                     self?.showError(with: message)
                 }
                 
