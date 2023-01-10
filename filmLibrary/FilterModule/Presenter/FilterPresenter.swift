@@ -14,13 +14,23 @@ protocol FilterPresenterProtocol {
 }
 
 final class FilterPresenter: FilterPresenterProtocol {
+    
+    // MARK: - Services
+    
     private var movieFilter: MovieFilterProtocol
+    
+    // MARK: - Parameters
+    
     private var completion: () -> Void
+    
+    // MARK: - Inits
     
     init(movieFilter: MovieFilterProtocol, completion: @escaping () -> Void) {
         self.movieFilter = movieFilter
         self.completion = completion
     }
+    
+    // MARK: - Funcs
     
     func getFilterValues() -> (Int, Float) {
         var initialYear = 0

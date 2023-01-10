@@ -44,8 +44,8 @@ final class FilterViewController: UIViewController {
     
     private lazy var ratingSlider: UISlider = {
         let slider = UISlider()
-        slider.minimumValue = Constants.Filter.minimumRating
-        slider.maximumValue = Constants.Filter.maximumRating
+        slider.minimumValue = Constants.Filter.minRating
+        slider.maximumValue = Constants.Filter.maxRating
         slider.backgroundColor = Constants.Color.orange
         slider.tintColor = Constants.Color.white
         
@@ -72,8 +72,8 @@ final class FilterViewController: UIViewController {
     
     private lazy var yearSlider: UISlider = {
         let slider = UISlider()
-        slider.minimumValue = Float(Constants.Filter.minimumYear)
-        slider.maximumValue = Float(Constants.Filter.maximumYear)
+        slider.minimumValue = Float(Constants.Filter.minYear)
+        slider.maximumValue = Float(Constants.Filter.maxYear)
         slider.backgroundColor = Constants.Color.orange
         slider.tintColor = Constants.Color.white
         
