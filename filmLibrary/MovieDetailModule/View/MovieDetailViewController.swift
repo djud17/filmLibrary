@@ -91,7 +91,7 @@ final class MovieDetailViewController: UIViewController {
         return view
     }()
     
-    private lazy var watchListButton: UIButton = {
+    private lazy var watchListButton: WatchListButton = {
         let button = WatchListButton(buttonStyle: .notAdded)
         button.addTarget(self, action: #selector(watchListButtonTapped), for: .touchUpInside)
         return button
@@ -129,6 +129,7 @@ final class MovieDetailViewController: UIViewController {
         setupBackViewHierarchy()
         setupBackViewLayout()
         setupContentViewHierarchy()
+        setupWatchListButton()
         
         presenter.loadData()
         presenter.loadMovieInfo()
@@ -145,7 +146,6 @@ final class MovieDetailViewController: UIViewController {
     
     private func setupHierarchy() {
         view.addSubview(backView)
-        
     }
     
     private func setupLayout() {
@@ -166,7 +166,6 @@ final class MovieDetailViewController: UIViewController {
         backView.addSubview(movieNameLabel)
         backView.addSubview(movieInfoLabel)
         backView.addSubview(scrollView)
-        backView.addSubview(watchListButton)
     }
     
     private func setupBackViewLayout() {
@@ -176,13 +175,6 @@ final class MovieDetailViewController: UIViewController {
             make.leading.equalTo(backView.snp.leading).offset(mediumOffset)
             make.width.equalTo(Constants.Size.imageWidth)
             make.height.equalTo(Constants.Size.imageHeight)
-        }
-        
-        let watchListButtonOffset: CGFloat = 15
-        watchListButton.snp.makeConstraints { make in
-            make.bottom.equalTo(moviePoster.snp.bottom).offset(watchListButtonOffset)
-            make.trailing.equalTo(moviePoster.snp.trailing).offset(watchListButtonOffset)
-            make.height.width.equalTo(Constants.Size.watchListButton)
         }
         
         movieNameLabel.snp.makeConstraints { make in
@@ -273,6 +265,20 @@ final class MovieDetailViewController: UIViewController {
         }
     }
     
+    private func setupWatchListButton() {
+        backView.addSubview(watchListButton)
+        
+        let watchListButtonOffset: CGFloat = 15
+        watchListButton.snp.makeConstraints { make in
+            make.bottom.equalTo(moviePoster.snp.bottom).offset(watchListButtonOffset)
+            make.trailing.equalTo(moviePoster.snp.trailing).offset(watchListButtonOffset)
+            make.height.width.equalTo(Constants.Size.watchListButton)
+        }
+        
+        let resultCheck = presenter.checkWatchList()
+        watchListButton.buttonStyle = resultCheck ? .added : .notAdded
+    }
+    
     // MARK: - Actions
     
     @objc private func watchListButtonTapped(_ sender: WatchListButton) {
@@ -283,6 +289,8 @@ final class MovieDetailViewController: UIViewController {
         case .notAdded:
             sender.buttonStyle = .added
         }
+        
+        presenter.watchListButtonTapped()
     }
 }
 

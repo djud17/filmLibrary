@@ -15,12 +15,16 @@ protocol MovieDetailPresenterProtocol {
     func getData(for id: Int) -> Actor?
     func loadMovieInfo()
     func getFacts() -> [String]
+    func checkWatchList() -> Bool
+    func watchListButtonTapped()
 }
 
 final class MovieDetailPresenter: MovieDetailPresenterProtocol {
-    private var movie: Movie
     weak var delegate: MovieDetailDelegate?
     private let apiClient: ApiClientProtocol
+    private let storage: StorageProtocol = ServiceCoordinator.storage
+    
+    private var movie: Movie
     private var movieFacts: [Fact] = []
     private var actors: [Actor] = []
     
@@ -102,5 +106,21 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
         }
         
         return cleanFact
+    }
+    
+    func checkWatchList() -> Bool {
+        storage.checkItemIn(objectId: movie.id)
+    }
+    
+    func watchListButtonTapped() {
+        do {
+            if checkWatchList() {
+                try storage.deleteFrom(object: movie)
+            } else {
+                try storage.writeTo(object: movie)
+            }
+        } catch (let error) {
+            
+        }
     }
 }

@@ -17,6 +17,7 @@ protocol StorageProtocol {
     func writeTo(object: Movie) throws
     func readFrom() throws -> [Movie]
     func deleteFrom(object: Movie) throws
+    func checkItemIn(objectId: Int) -> Bool
 }
 
 final class RealmStorage: StorageProtocol {
@@ -66,9 +67,17 @@ final class RealmStorage: StorageProtocol {
             throw RealmError.deleteError
         }
     }
+    
+    func checkItemIn(objectId: Int) -> Bool {
+        guard let realm else { return false }
+        
+        let objects = realm.objects(RealmMovie.self)
+        
+        return objects.filter { $0.id == objectId }.count > 0
+    }
 }
 
-private final class RealmMovie: Object {
+final class RealmMovie: Object {
     @objc dynamic var poster = ""
     @objc dynamic var rating = 0.0
     @objc dynamic var movieLength = 0

@@ -10,4 +10,5 @@ import Foundation
 final class ServiceCoordinator {
     static let apiClient: ApiClientProtocol = ApiClient.shared
     static let movieFilter: MovieFilterProtocol = MovieFilter.shared
+    static let storage: StorageProtocol = RealmStorage.shared
 }
