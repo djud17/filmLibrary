@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - SingleMovie
+
 struct SingleMovie: Decodable {
     let id: Int
     let facts: [Fact]

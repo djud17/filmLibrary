@@ -8,13 +8,16 @@
 import UIKit
 import SnapKit
 
-protocol MovieDetailDelegate: AnyObject {
+protocol MovieDetailSetupProtocol {
     func setupPosterImage(with url: String)
     func setupMovieName(with text: String)
     func setupMovieDescription(with text: String)
     func setupInfoBlock(rating: Double, duration: Int)
-    func updateActorsBlock()
     func setupFactsBlock()
+}
+
+protocol MovieDetailDelegate: AnyObject, MovieDetailSetupProtocol {
+    func updateActorsBlock()
     func showErrorAlert(alertController: UIAlertController)
 }
 

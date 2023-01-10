@@ -30,19 +30,28 @@ protocol MovieDetailPresenterProtocol: MovieDetailLoadDataProtocol,
 }
 
 final class MovieDetailPresenter: MovieDetailPresenterProtocol {
+    
+    // MARK: - Services
+    
     weak var delegate: MovieDetailDelegate?
     private let apiClient: ApiClientProtocol
     private let storage: StorageProtocol = ServiceCoordinator.storage
     private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
     
+    // MARK: - Parameters
+    
     private var movie: Movie
     private var movieFacts: [Fact] = []
     private var actors: [Actor] = []
+    
+    // MARK: - Inits
     
     init(movie: Movie, apiClient: ApiClientProtocol) {
         self.movie = movie
         self.apiClient = apiClient
     }
+    
+    // MARK: - Funcs
     
     func loadData() {
         let imageUrl = movie.poster?.previewUrl
