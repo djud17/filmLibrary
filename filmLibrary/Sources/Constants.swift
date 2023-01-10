@@ -18,6 +18,10 @@ enum Constants {
         static let searchScreenTitle = "Поиск"
         static let searchScreenTabImage = "magnifyingglass.circle"
         static let searchSceenSelectedTabImage = "magnifyingglass.circle.fill"
+        
+        static let watchListScreenTitle = "Посмотрю"
+        static let watchListScreenTabImage = "eye"
+        static let watchListSceenSelectedTabImage = "eye.fill"
     }
     
     enum ApiRequest {
@@ -29,6 +33,7 @@ enum Constants {
         static let white: UIColor = .white
         static let black: UIColor = .black
         static let orange = UIColor(red: 0.95, green: 0.46, blue: 0, alpha: 1)
+        static let red = UIColor(red: 0.61, green: 0.11, blue: 0.09, alpha: 1)
     }
     
     enum Offset {
@@ -40,6 +45,8 @@ enum Constants {
     }
     
     enum Size {
+        static let watchListButton: CGFloat = 40
+        
         static let imageHeight: CGFloat = 170
         static let imageWidth: CGFloat = 120
         
@@ -56,5 +63,20 @@ enum Constants {
         static let factLabel: CGFloat = 15
         
         static let large: CGFloat = 25
+    }
+    
+    enum ImageName {
+        static let placeholder = "photo"
+        
+        static let watchListButton = "heart.circle.fill"
+        static let watchListButtonSelected = "heart.circle"
+    }
+    
+    enum Filter {
+        static let minimumYear = 1900
+        static let maximumYear: Int = Calendar.current.component(.year, from: Date())
+        
+        static let minimumRating: Float = 0.0
+        static let maximumRating: Float = 10.0
     }
 }

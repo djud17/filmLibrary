@@ -11,9 +11,11 @@ import SnapKit
 protocol SearchMoviesDelegate: AnyObject {
     func updateView()
     func startLoading()
+    func showErrorAlert(alertController: UIAlertController)
 }
 
 final class SearchMoviesViewController: UIViewController {
+    
     // MARK: - UI Elements
     
     private lazy var searchRequestLabel: UILabel = {
@@ -26,12 +28,7 @@ final class SearchMoviesViewController: UIViewController {
     }()
     
     private lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.searchBarStyle = .prominent
-        searchBar.barTintColor = Constants.Color.white
-        searchBar.keyboardAppearance = .light
-        searchBar.returnKeyType = .search
-        searchBar.placeholder = "Введите название фильма"
+        let searchBar = MovieSearchBar(with: "Введите название фильма")
         
         return searchBar
     }()
@@ -53,16 +50,7 @@ final class SearchMoviesViewController: UIViewController {
     }()
     
     private lazy var filterButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Фильтры", for: .normal)
-        button.setTitleColor(Constants.Color.orange, for: .normal)
-        button.setTitleColor(Constants.Color.orange.withAlphaComponent(0.5), for: .highlighted)
-        button.backgroundColor = Constants.Color.white
-
-        button.layer.cornerRadius = Constants.Size.cornerRadius
-        
-        button.setupShadow()
-        
+        let button = FilterButton(with: "Фильтры")
         button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         
         return button
@@ -72,6 +60,7 @@ final class SearchMoviesViewController: UIViewController {
     
     private var presenter: SearchMoviesPresenterProtocol
     private var needLoadMoreData = false
+    private let errorManager = ServiceCoordinator.errorManager
     
     // MARK: - Inits
     
@@ -203,25 +192,18 @@ extension SearchMoviesViewController: SearchMoviesDelegate {
         moviesTableView.reloadData()
         
         if presenter.getNumberOfRecords() == 0 {
-            showNoDataMessage()
+            presenter.errorAppeared()
         } else {
             moviesTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }
     
-    private func showNoDataMessage() {
-        guard let searchText = searchBar.text else { return }
-        
-        let message = "По вашему запросу \(searchText) - ничего не найдено. Попробуйте ввести другой запрос."
-        let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "Ok", style: .default)
-        alertController.addAction(okButton)
-        
-        present(alertController, animated: true)
-    }
-    
     func startLoading() {
         loadingActivityIndicator.startAnimating()
+    }
+    
+    func showErrorAlert(alertController: UIAlertController) {
+        present(alertController, animated: true)
     }
 }
 

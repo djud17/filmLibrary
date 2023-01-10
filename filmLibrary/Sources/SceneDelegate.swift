@@ -9,7 +9,7 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private let serviceCoordinator = ServiceCoordinator.self
+    private let apiClient = ServiceCoordinator.apiClient
     
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -21,8 +21,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = createTabController()
         let startScreen = createPopularMoviesTab()
         let searchScreen = createSearchTab()
+        let watchListScreen = createWatchListTab()
         
-        tabBarController.viewControllers = [startScreen, searchScreen]
+        tabBarController.viewControllers = [startScreen, searchScreen, watchListScreen]
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
@@ -39,8 +40,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func createPopularMoviesTab() -> UIViewController {
-        let router = PopularMoviesRouter()
-        let popularMoviesPresenter = PopularMoviesPresenter(apiClient: serviceCoordinator.apiClient, router: router)
+        var popularMoviesRouter: RouterProtocol = PopularMoviesRouter()
+        let popularMoviesPresenter: PopularMoviesPresenterProtocol = PopularMoviesPresenter(apiClient: apiClient,
+                                                                                            router: popularMoviesRouter)
         let popularMoviesVC = PopularMoviesViewController(presenter: popularMoviesPresenter)
         let popularMoviesController = UINavigationController(rootViewController: popularMoviesVC)
         popularMoviesController.setupControllerStyle()
@@ -49,14 +51,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                 image: UIImage(systemName: Constants.Tab.popularScreenTabImage),
                                                 selectedImage: UIImage(systemName: Constants.Tab.popularSceenSelectedTabImage))
         popularMoviesController.tabBarItem = mainScreenTabBarItem
-        router.navigationController = popularMoviesController
+        popularMoviesRouter.navigationController = popularMoviesController
         
         return popularMoviesController
     }
     
     private func createSearchTab() -> UIViewController {
-        let router = SearchMoviesRouter()
-        let searchPresenter = SearchMoviesPresenter(apiClient: serviceCoordinator.apiClient, router: router)
+        var searchMoviesRouter: RouterProtocol = SearchMoviesRouter()
+        let searchPresenter: SearchMoviesPresenterProtocol = SearchMoviesPresenter(apiClient: apiClient,
+                                                                                   router: searchMoviesRouter)
         let searchMoviesVC = SearchMoviesViewController(presenter: searchPresenter)
         let searchMoviesController = UINavigationController(rootViewController: searchMoviesVC)
         searchMoviesController.setupControllerStyle()
@@ -65,8 +68,24 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                   image: UIImage(systemName: Constants.Tab.searchScreenTabImage),
                                                   selectedImage: UIImage(systemName: Constants.Tab.searchSceenSelectedTabImage))
         searchMoviesController.tabBarItem = searchScreenTabBarItem
-        router.navigationController = searchMoviesController
+        searchMoviesRouter.navigationController = searchMoviesController
         
         return searchMoviesController
+    }
+    
+    private func createWatchListTab() -> UIViewController {
+        var watchListRouter: RouterProtocol = WatchListRouter()
+        let watchListPresenter: WatchListPresenterProtocol = WatchListPresenter(router: watchListRouter, apiClient: apiClient)
+        let watchListVC = WatchListViewController(presenter: watchListPresenter)
+        let watchListViewController = UINavigationController(rootViewController: watchListVC)
+        watchListViewController.setupControllerStyle()
+        
+        let watchListTabBarItem = UITabBarItem(title: Constants.Tab.watchListScreenTitle,
+                                               image: UIImage(systemName: Constants.Tab.watchListScreenTabImage),
+                                               selectedImage: UIImage(systemName: Constants.Tab.watchListSceenSelectedTabImage))
+        watchListViewController.tabBarItem = watchListTabBarItem
+        watchListRouter.navigationController = watchListViewController
+        
+        return watchListViewController
     }
 }

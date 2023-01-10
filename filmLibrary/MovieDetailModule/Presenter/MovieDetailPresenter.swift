@@ -15,12 +15,17 @@ protocol MovieDetailPresenterProtocol {
     func getData(for id: Int) -> Actor?
     func loadMovieInfo()
     func getFacts() -> [String]
+    func checkWatchList() -> Bool
+    func watchListButtonTapped()
 }
 
 final class MovieDetailPresenter: MovieDetailPresenterProtocol {
-    private var movie: Movie
     weak var delegate: MovieDetailDelegate?
     private let apiClient: ApiClientProtocol
+    private let storage: StorageProtocol = ServiceCoordinator.storage
+    private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
+    
+    private var movie: Movie
     private var movieFacts: [Fact] = []
     private var actors: [Actor] = []
     
@@ -51,7 +56,8 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
                     self?.actors = success.persons
                     self?.movieFacts = success.facts
                 case .failure(let error):
-                    print("Error - \(error.localizedDescription)")
+                    let message = "Error - \(error.localizedDescription)"
+                    self?.showError(with: message)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
@@ -102,5 +108,45 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
         }
         
         return cleanFact
+    }
+    
+    func checkWatchList() -> Bool {
+        storage.checkItemIn(by: movie.id)
+    }
+    
+    func watchListButtonTapped() {
+        if checkWatchList() {
+            deleteFromStorage()
+        } else {
+            writeToStorage()
+        }
+    }
+    
+    private func deleteFromStorage() {
+        do {
+            try storage.deleteFrom(by: movie.id)
+        } catch {
+            let message = "Error - \(error.localizedDescription)"
+            showError(with: message)
+        }
+    }
+    
+    private func writeToStorage() {
+        do {
+            try storage.writeTo(object: movie)
+        } catch {
+            let message = "Error - \(error.localizedDescription)"
+            showError(with: message)
+        }
+    }
+    
+    private func showError(with message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let alertController = self?.errorManager.createErrorMessage(message: message) else {
+                return
+            }
+            
+            self?.delegate?.showErrorAlert(alertController: alertController)
+        }
     }
 }

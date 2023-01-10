@@ -15,9 +15,11 @@ protocol MovieDetailDelegate: AnyObject {
     func setupInfoBlock(rating: Double, duration: Int)
     func updateActorsBlock()
     func setupFactsBlock()
+    func showErrorAlert(alertController: UIAlertController)
 }
 
 final class MovieDetailViewController: UIViewController {
+    
     // MARK: - UI Elements
 
     private lazy var backView: UIView = {
@@ -90,6 +92,12 @@ final class MovieDetailViewController: UIViewController {
         return view
     }()
     
+    private lazy var watchListButton: WatchListButton = {
+        let button = WatchListButton(buttonStyle: .notAdded)
+        button.addTarget(self, action: #selector(watchListButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Parameters
     
     private var presenter: MovieDetailPresenterProtocol
@@ -122,6 +130,7 @@ final class MovieDetailViewController: UIViewController {
         setupBackViewHierarchy()
         setupBackViewLayout()
         setupContentViewHierarchy()
+        setupWatchListButton()
         
         presenter.loadData()
         presenter.loadMovieInfo()
@@ -256,6 +265,34 @@ final class MovieDetailViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
     }
+    
+    private func setupWatchListButton() {
+        backView.addSubview(watchListButton)
+        
+        let watchListButtonOffset: CGFloat = 15
+        watchListButton.snp.makeConstraints { make in
+            make.bottom.equalTo(moviePoster.snp.bottom).offset(watchListButtonOffset)
+            make.trailing.equalTo(moviePoster.snp.trailing).offset(watchListButtonOffset)
+            make.height.width.equalTo(Constants.Size.watchListButton)
+        }
+        
+        let resultCheck = presenter.checkWatchList()
+        watchListButton.buttonStyle = resultCheck ? .added : .notAdded
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func watchListButtonTapped(_ sender: WatchListButton) {
+        let buttonStyle = sender.buttonStyle
+        switch buttonStyle {
+        case .added:
+            sender.buttonStyle = .notAdded
+        case .notAdded:
+            sender.buttonStyle = .added
+        }
+        
+        presenter.watchListButtonTapped()
+    }
 }
 
 extension MovieDetailViewController: MovieDetailDelegate {
@@ -316,6 +353,10 @@ extension MovieDetailViewController: MovieDetailDelegate {
         }
         
         return view
+    }
+    
+    func showErrorAlert(alertController: UIAlertController) {
+        present(alertController, animated: true)
     }
 }
 

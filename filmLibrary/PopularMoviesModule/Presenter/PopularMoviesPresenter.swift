@@ -20,8 +20,9 @@ protocol PopularMoviesPresenterProtocol {
 final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
     weak var delegate: PopularMoviesDelegate?
     private let router: RouterProtocol
-    
     private let apiClient: ApiClientProtocol
+    private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
+    
     private var movies: [Movie] = []
     
     init(apiClient: ApiClientProtocol, router: RouterProtocol) {
@@ -36,7 +37,8 @@ final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
                 case .success(let success):
                     self?.movies = success.movies
                 case .failure(let error):
-                    print("Error - \(error.localizedDescription)")
+                    let message = "Error - \(error.localizedDescription)"
+                    self?.showError(with: message)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
@@ -64,5 +66,15 @@ final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
         let detailViewController = MovieDetailViewController(presenter: movieDetailPresenter)
 
         router.openScreen(detailViewController)
+    }
+    
+    private func showError(with message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let alertController = self?.errorManager.createErrorMessage(message: message) else {
+                return
+            }
+            
+            self?.delegate?.showErrorAlert(alertController: alertController)
+        }
     }
 }

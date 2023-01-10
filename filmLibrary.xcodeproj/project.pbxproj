@@ -41,7 +41,15 @@
 		25BA2306296A08D300B1671A /* ActorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25BA2304296A08D300B1671A /* ActorCollectionViewCell.xib */; };
 		25BA2309296A0B1C00B1671A /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA2308296A0B1C00B1671A /* Actor.swift */; };
 		25BA232B296AFF1700B1671A /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA232A296AFF1700B1671A /* CustomLabel.swift */; };
+		25C32F12296D585E00E1C713 /* WatchListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C32F11296D585E00E1C713 /* WatchListButton.swift */; };
 		25CB7515296CA19000BDBCA0 /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7514296CA19000BDBCA0 /* FilterPresenter.swift */; };
+		25CB7519296CAD8E00BDBCA0 /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7518296CAD8E00BDBCA0 /* WatchListViewController.swift */; };
+		25CB751F296CB45200BDBCA0 /* WatchListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB751E296CB45200BDBCA0 /* WatchListPresenter.swift */; };
+		25CB7521296CB4AA00BDBCA0 /* WatchListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7520296CB4AA00BDBCA0 /* WatchListRouter.swift */; };
+		25CB7523296CB8C800BDBCA0 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7522296CB8C800BDBCA0 /* FilterButton.swift */; };
+		25CB7525296CB9AA00BDBCA0 /* MovieSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7524296CB9AA00BDBCA0 /* MovieSearchBar.swift */; };
+		25CB7527296CBBBA00BDBCA0 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7526296CBBBA00BDBCA0 /* Persistance.swift */; };
+		25DD5228296D9AB600189255 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD5227296D9AB600189255 /* ErrorManager.swift */; };
 		25E0C0C62969D95800F78BA7 /* CellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E0C0C52969D95800F78BA7 /* CellViewModel.swift */; };
 		278CE19C278FB8C6EF652A17 /* Pods_filmLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68F4F14C27B7E06076EEBEDA /* Pods_filmLibrary.framework */; };
 /* End PBXBuildFile section */
@@ -84,7 +92,15 @@
 		25BA2304296A08D300B1671A /* ActorCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActorCollectionViewCell.xib; sourceTree = "<group>"; };
 		25BA2308296A0B1C00B1671A /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		25BA232A296AFF1700B1671A /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		25C32F11296D585E00E1C713 /* WatchListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListButton.swift; sourceTree = "<group>"; };
 		25CB7514296CA19000BDBCA0 /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
+		25CB7518296CAD8E00BDBCA0 /* WatchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListViewController.swift; sourceTree = "<group>"; };
+		25CB751E296CB45200BDBCA0 /* WatchListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListPresenter.swift; sourceTree = "<group>"; };
+		25CB7520296CB4AA00BDBCA0 /* WatchListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListRouter.swift; sourceTree = "<group>"; };
+		25CB7522296CB8C800BDBCA0 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
+		25CB7524296CB9AA00BDBCA0 /* MovieSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchBar.swift; sourceTree = "<group>"; };
+		25CB7526296CBBBA00BDBCA0 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
+		25DD5227296D9AB600189255 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
 		25E0C0C52969D95800F78BA7 /* CellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewModel.swift; sourceTree = "<group>"; };
 		68F4F14C27B7E06076EEBEDA /* Pods_filmLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_filmLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA0C007F0D5D100F8F05159A /* Pods-filmLibrary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-filmLibrary.debug.xcconfig"; path = "Target Support Files/Pods-filmLibrary/Pods-filmLibrary.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +132,7 @@
 			children = (
 				25BA2302296A08AF00B1671A /* ActorCell */,
 				25AA67BB2967825A00F5989F /* MovieDetailViewController.swift */,
+				25C32F11296D585E00E1C713 /* WatchListButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -227,6 +244,7 @@
 				25AA67BA2967823100F5989F /* MovieDetailModule */,
 				25459A91296B07B300E73EC5 /* SearchMoviesModule */,
 				258FC092296C740D0078CFED /* FilterModule */,
+				25CB7517296CAD7200BDBCA0 /* WatchListModule */,
 			);
 			path = filmLibrary;
 			sourceTree = "<group>";
@@ -263,6 +281,8 @@
 				25AA67B129674B1400F5989F /* ServiceCoordinator.swift */,
 				257E35D82967393B00E89695 /* ApiClient.swift */,
 				258FC08E296C56200078CFED /* MovieFilter.swift */,
+				25CB7526296CBBBA00BDBCA0 /* Persistance.swift */,
+				25DD5227296D9AB600189255 /* ErrorManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -283,8 +303,8 @@
 		258FC092296C740D0078CFED /* FilterModule */ = {
 			isa = PBXGroup;
 			children = (
-				25CB7513296CA17D00BDBCA0 /* Presenter */,
 				258FC095296C743B0078CFED /* View */,
+				25CB7513296CA17D00BDBCA0 /* Presenter */,
 			);
 			path = FilterModule;
 			sourceTree = "<group>";
@@ -369,8 +389,44 @@
 			isa = PBXGroup;
 			children = (
 				25BA232A296AFF1700B1671A /* CustomLabel.swift */,
+				25CB7522296CB8C800BDBCA0 /* FilterButton.swift */,
+				25CB7524296CB9AA00BDBCA0 /* MovieSearchBar.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		25CB7517296CAD7200BDBCA0 /* WatchListModule */ = {
+			isa = PBXGroup;
+			children = (
+				25CB751A296CAD9E00BDBCA0 /* View */,
+				25CB751C296CB42100BDBCA0 /* Presenter */,
+				25CB751D296CB42A00BDBCA0 /* Router */,
+			);
+			path = WatchListModule;
+			sourceTree = "<group>";
+		};
+		25CB751A296CAD9E00BDBCA0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				25CB7518296CAD8E00BDBCA0 /* WatchListViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		25CB751C296CB42100BDBCA0 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				25CB751E296CB45200BDBCA0 /* WatchListPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		25CB751D296CB42A00BDBCA0 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				25CB7520296CB4AA00BDBCA0 /* WatchListRouter.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		BDB562EF2A5D0C69F04599F1 /* Frameworks */ = {
@@ -388,8 +444,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 257E35CA29672F0300E89695 /* Build configuration list for PBXNativeTarget "filmLibrary" */;
 			buildPhases = (
-				D0538421DFB80DBD8E6D543F /* [CP] Check Pods Manifest.lock */,
 				257E35D3296730C600E89695 /* ShellScript */,
+				D0538421DFB80DBD8E6D543F /* [CP] Check Pods Manifest.lock */,
 				257E359C29672F0100E89695 /* Sources */,
 				257E359D29672F0100E89695 /* Frameworks */,
 				257E359E29672F0100E89695 /* Resources */,
@@ -525,10 +581,14 @@
 				25459AAD296B38BA00E73EC5 /* PopularMovies.swift in Sources */,
 				25AA67B429674BCA00F5989F /* PopularMoviesPresenter.swift in Sources */,
 				25E0C0C62969D95800F78BA7 /* CellViewModel.swift in Sources */,
+				25CB751F296CB45200BDBCA0 /* WatchListPresenter.swift in Sources */,
 				25459A95296B084A00E73EC5 /* SearchMoviesViewController.swift in Sources */,
 				257E35A829672F0100E89695 /* PopularMoviesViewController.swift in Sources */,
+				25CB7521296CB4AA00BDBCA0 /* WatchListRouter.swift in Sources */,
+				25CB7519296CAD8E00BDBCA0 /* WatchListViewController.swift in Sources */,
 				2513C54B2969DB6500985A30 /* PopularMoviesRouter.swift in Sources */,
 				258FC08F296C56200078CFED /* MovieFilter.swift in Sources */,
+				25DD5228296D9AB600189255 /* ErrorManager.swift in Sources */,
 				25BA2309296A0B1C00B1671A /* Actor.swift in Sources */,
 				25459A9E296B1D0A00E73EC5 /* TableView.swift in Sources */,
 				25CB7515296CA19000BDBCA0 /* FilterPresenter.swift in Sources */,
@@ -536,17 +596,21 @@
 				25459AA7296B327700E73EC5 /* SearchMoviesRouter.swift in Sources */,
 				25459AAA296B383A00E73EC5 /* MovieSearch.swift in Sources */,
 				25BA23012969ECEE00B1671A /* CollectionView.swift in Sources */,
+				25CB7525296CB9AA00BDBCA0 /* MovieSearchBar.swift in Sources */,
 				257E35A429672F0100E89695 /* AppDelegate.swift in Sources */,
 				258FC094296C74320078CFED /* FilterViewController.swift in Sources */,
 				25BA2305296A08D300B1671A /* ActorCollectionViewCell.swift in Sources */,
 				25AA67B229674B1400F5989F /* ServiceCoordinator.swift in Sources */,
 				25AA67B72967724B00F5989F /* MovieCollectionViewCell.swift in Sources */,
+				25CB7523296CB8C800BDBCA0 /* FilterButton.swift in Sources */,
+				25C32F12296D585E00E1C713 /* WatchListButton.swift in Sources */,
 				25AA67BC2967825A00F5989F /* MovieDetailViewController.swift in Sources */,
 				25459AAF296B656100E73EC5 /* ViewController.swift in Sources */,
 				2513C54F2969E6D300985A30 /* MovieDetailPresenter.swift in Sources */,
 				257E35A629672F0100E89695 /* SceneDelegate.swift in Sources */,
 				25459A97296B170900E73EC5 /* NavigationController.swift in Sources */,
 				25BA22FF2969ECC300B1671A /* ImageView.swift in Sources */,
+				25CB7527296CBBBA00BDBCA0 /* Persistance.swift in Sources */,
 				257E35D92967393B00E89695 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

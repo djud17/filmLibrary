@@ -16,12 +16,15 @@ protocol SearchMoviesPresenterProtocol {
     func loadMoreData()
     func itemPressed(sender: UIViewController, for id: Int)
     func filterButtonPressed(sender: UIViewController)
+    func errorAppeared()
 }
 
 final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
     var delegate: SearchMoviesDelegate?
     private let apiClient: ApiClientProtocol
     private let router: RouterProtocol
+    private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
+    
     private var movies: [Movie] = []
     private var pages = 1
     private var currentPage = 1
@@ -49,7 +52,8 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
                     self?.pages = success.pages
                     self?.movies = success.results
                 case .failure(let error):
-                    print("Error - \(error.localizedDescription)")
+                    let message = "Error - \(error.localizedDescription)"
+                    self?.showError(with: message)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
@@ -72,7 +76,8 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
                     case .success(let success):
                         self?.movies += success.results
                     case .failure(let error):
-                        print("Error - \(error.localizedDescription)")
+                        let message = "Error - \(error.localizedDescription)"
+                        self?.showError(with: message)
                     }
                     
                     DispatchQueue.main.async { [weak self] in
@@ -100,7 +105,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
     }
     
     func filterButtonPressed(sender: UIViewController) {
-        let movieFilter = ServiceCoordinator.movieFilter
+        let movieFilter = ServiceCoordinator.webMovieFilter
         let filterPresenter: FilterPresenterProtocol = FilterPresenter(movieFilter: movieFilter) { [weak self] in
             guard let searchRequest = self?.searchRequest else { return }
             
@@ -112,10 +117,25 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
         
         if #available(iOS 15.0, *) {
             if let sheet = filterViewController.sheetPresentationController {
-                sheet.detents = [.medium(), .large()]
+                sheet.detents = [.medium()]
             }
         }
         
         sender.present(filterViewController, animated: true)
+    }
+    
+    func errorAppeared() {
+        let message = "По вашему запросу \(searchRequest) - ничего не найдено. Попробуйте ввести другой запрос."
+        showError(with: message)
+    }
+    
+    private func showError(with message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let alertController = self?.errorManager.createErrorMessage(message: message) else {
+                return
+            }
+            
+            self?.delegate?.showErrorAlert(alertController: alertController)
+        }
     }
 }

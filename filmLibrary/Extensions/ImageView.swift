@@ -17,7 +17,7 @@ extension UIImageView {
             self?.kf.indicatorType = .activity
             self?.kf.setImage(
                 with: url,
-                placeholder: UIImage(systemName: "photo"),
+                placeholder: UIImage(systemName: Constants.ImageName.placeholder),
                 options: [
                     .processor(processor),
                     .scaleFactor(UIScreen.main.scale),

@@ -8,30 +8,18 @@
 import Foundation
 
 protocol MovieFilterProtocol {
-    var rating: ClosedRange<Double>? { get set }
+    var rating: ClosedRange<Float>? { get set }
     var year: ClosedRange<Int>? { get set }
     
-    func getFiltersRequest() -> String
+    func resetFilter()
 }
 
 final class MovieFilter: MovieFilterProtocol {
-    var rating: ClosedRange<Double>?
+    var rating: ClosedRange<Float>?
     var year: ClosedRange<Int>?
     
-    func getFiltersRequest() -> String {
-        var resultRequest = ""
-        if let rating = rating {
-            let min = rating.lowerBound
-            let max = rating.upperBound
-            resultRequest += "&field=rating.kp&search=\(min)-\(max)"
-        }
-        
-        if let year = year {
-            let min = year.lowerBound
-            let max = year.upperBound
-            resultRequest += "&field=year&search=\(min)-\(max)"
-        }
-        
-        return resultRequest
+    func resetFilter() {
+        rating = Constants.Filter.minimumRating...Constants.Filter.maximumRating
+        year = Constants.Filter.minimumYear...Constants.Filter.maximumYear
     }
 }
