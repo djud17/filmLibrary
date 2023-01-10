@@ -70,9 +70,7 @@ final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
     
     private func showError(with message: String) {
         DispatchQueue.main.async { [weak self] in
-            guard let alertController = self?.errorManager.createErrorMessage(message: message) else {
-                return
-            }
+            guard let alertController = self?.errorManager.createErrorMessage(message: message) else { return }
             
             self?.delegate?.showErrorAlert(alertController: alertController)
         }
