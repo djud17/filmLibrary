@@ -23,7 +23,7 @@ final class RealmStorage: StorageProtocol {
     static let shared = RealmStorage()
     
     private let realm = try? Realm()
-    private let realmConverter = RealmConverter.shared
+    private let realmConverter: ConverterProtocol = RealmConverter.shared
     
     func writeTo(object: Movie) throws {
         guard let realm else { return }
@@ -75,6 +75,8 @@ final class RealmStorage: StorageProtocol {
     }
 }
 
+// MARK: - Realm struct
+
 final class RealmMovie: Object {
     @objc dynamic var poster = ""
     @objc dynamic var rating = 0.0
@@ -85,6 +87,8 @@ final class RealmMovie: Object {
     @objc dynamic var year = 0
     @objc dynamic var shortDescription = ""
 }
+
+// MARK: - Realm Converter
 
 private protocol ConverterProtocol {
     func convertToRealm(object: Movie) -> RealmMovie
