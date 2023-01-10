@@ -25,17 +25,26 @@ protocol PopularMoviesPresenterProtocol: PopularMoviesLoadDataProtocol,
 }
 
 final class PopularMoviesPresenter: PopularMoviesPresenterProtocol {
-    weak var delegate: PopularMoviesDelegate?
+    
+    // MARK: - Services
+    
     private let router: RouterProtocol
     private let apiClient: ApiClientProtocol
     private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
     
+    // MARK: - Parameters
+    
+    weak var delegate: PopularMoviesDelegate?
     private var movies: [Movie] = []
+    
+    // MARK: - Inits
     
     init(apiClient: ApiClientProtocol, router: RouterProtocol) {
         self.apiClient = apiClient
         self.router = router
     }
+    
+    // MARK: - Funcs
     
     func loadData() {
         DispatchQueue.global().async(flags: .barrier) { [weak self] in
