@@ -16,10 +16,11 @@ final class MovieTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        backgroundColor = Constants.Color.white
+        
         backView.layer.cornerRadius = Constants.Size.cornerRadius
         backView.layer.borderColor = Constants.Color.orange.cgColor
         backView.layer.borderWidth = Constants.Size.borderWidth
-        backgroundColor = Constants.Color.white
         backView.backgroundColor = Constants.Color.white
         
         movieImageView.tintColor = Constants.Color.orange

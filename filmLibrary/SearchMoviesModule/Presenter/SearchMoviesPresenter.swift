@@ -7,33 +7,46 @@
 
 import UIKit
 
-protocol SearchMoviesPresenterProtocol {
+protocol SearchMoviesDataProtocol {
+    func getNumberOfRecords() -> Int
+    func getData(by id: Int) -> Movie?
+    
+    func searchData(withText searchText: String)
+    func loadMoreData()
+}
+
+protocol SearchMoviesPresenterProtocol: SearchMoviesDataProtocol {
     var delegate: SearchMoviesDelegate? { get set }
     
-    func getNumberOfRecords() -> Int
-    func searchData(withText searchText: String)
-    func getData(by id: Int) -> Movie?
-    func loadMoreData()
     func itemPressed(sender: UIViewController, for id: Int)
     func filterButtonPressed(sender: UIViewController)
     func errorAppeared()
 }
 
 final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
-    var delegate: SearchMoviesDelegate?
+    
+    // MARK: - Services
+    
     private let apiClient: ApiClientProtocol
     private let router: RouterProtocol
     private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
     
+    // MARK: - Parameters
+    
+    var delegate: SearchMoviesDelegate?
     private var movies: [Movie] = []
     private var pages = 1
     private var currentPage = 1
     private var searchRequest = ""
     
+    // MARK: - Inits
+    
     init(apiClient: ApiClientProtocol, router: RouterProtocol) {
         self.apiClient = apiClient
         self.router = router
     }
+    
+    // MARK: - Funcs
     
     func getNumberOfRecords() -> Int {
         movies.count
