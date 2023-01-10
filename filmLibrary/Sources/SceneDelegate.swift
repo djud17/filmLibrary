@@ -40,9 +40,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func createPopularMoviesTab() -> UIViewController {
-        var router: RouterProtocol = PopularMoviesRouter()
+        var popularMoviesRouter: RouterProtocol = PopularMoviesRouter()
         let popularMoviesPresenter: PopularMoviesPresenterProtocol = PopularMoviesPresenter(apiClient: apiClient,
-                                                                                            router: router)
+                                                                                            router: popularMoviesRouter)
         let popularMoviesVC = PopularMoviesViewController(presenter: popularMoviesPresenter)
         let popularMoviesController = UINavigationController(rootViewController: popularMoviesVC)
         popularMoviesController.setupControllerStyle()
@@ -51,15 +51,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                 image: UIImage(systemName: Constants.Tab.popularScreenTabImage),
                                                 selectedImage: UIImage(systemName: Constants.Tab.popularSceenSelectedTabImage))
         popularMoviesController.tabBarItem = mainScreenTabBarItem
-        router.navigationController = popularMoviesController
+        popularMoviesRouter.navigationController = popularMoviesController
         
         return popularMoviesController
     }
     
     private func createSearchTab() -> UIViewController {
-        var router: RouterProtocol = SearchMoviesRouter()
+        var searchMoviesRouter: RouterProtocol = SearchMoviesRouter()
         let searchPresenter: SearchMoviesPresenterProtocol = SearchMoviesPresenter(apiClient: apiClient,
-                                                                                   router: router)
+                                                                                   router: searchMoviesRouter)
         let searchMoviesVC = SearchMoviesViewController(presenter: searchPresenter)
         let searchMoviesController = UINavigationController(rootViewController: searchMoviesVC)
         searchMoviesController.setupControllerStyle()
@@ -68,13 +68,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                   image: UIImage(systemName: Constants.Tab.searchScreenTabImage),
                                                   selectedImage: UIImage(systemName: Constants.Tab.searchSceenSelectedTabImage))
         searchMoviesController.tabBarItem = searchScreenTabBarItem
-        router.navigationController = searchMoviesController
+        searchMoviesRouter.navigationController = searchMoviesController
         
         return searchMoviesController
     }
     
     private func createWatchListTab() -> UIViewController {
-        let watchListPresenter: WatchListPresenterProtocol = WatchListPresenter()
+        var watchListRouter: RouterProtocol = WatchListRouter()
+        let watchListPresenter: WatchListPresenterProtocol = WatchListPresenter(router: watchListRouter, apiClient: apiClient)
         let watchListVC = WatchListViewController(presenter: watchListPresenter)
         let watchListViewController = UINavigationController(rootViewController: watchListVC)
         watchListViewController.setupControllerStyle()
@@ -83,6 +84,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                image: UIImage(systemName: Constants.Tab.watchListScreenTabImage),
                                                selectedImage: UIImage(systemName: Constants.Tab.watchListSceenSelectedTabImage))
         watchListViewController.tabBarItem = watchListTabBarItem
+        watchListRouter.navigationController = watchListViewController
         
         return watchListViewController
     }

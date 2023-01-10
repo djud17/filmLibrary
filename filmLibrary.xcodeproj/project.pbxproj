@@ -303,8 +303,8 @@
 		258FC092296C740D0078CFED /* FilterModule */ = {
 			isa = PBXGroup;
 			children = (
-				25CB7513296CA17D00BDBCA0 /* Presenter */,
 				258FC095296C743B0078CFED /* View */,
+				25CB7513296CA17D00BDBCA0 /* Presenter */,
 			);
 			path = FilterModule;
 			sourceTree = "<group>";
@@ -398,7 +398,6 @@
 		25CB7517296CAD7200BDBCA0 /* WatchListModule */ = {
 			isa = PBXGroup;
 			children = (
-				25CB751B296CB41B00BDBCA0 /* Model */,
 				25CB751A296CAD9E00BDBCA0 /* View */,
 				25CB751C296CB42100BDBCA0 /* Presenter */,
 				25CB751D296CB42A00BDBCA0 /* Router */,
@@ -412,13 +411,6 @@
 				25CB7518296CAD8E00BDBCA0 /* WatchListViewController.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		25CB751B296CB41B00BDBCA0 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		25CB751C296CB42100BDBCA0 /* Presenter */ = {

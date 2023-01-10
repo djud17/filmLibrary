@@ -5,12 +5,12 @@
 //  Created by Давид Тоноян  on 10.01.2023.
 //
 
-import Foundation
+import UIKit
 
-protocol WatchListRouterProtocol {
+final class WatchListRouter: RouterProtocol {
+    weak var navigationController: UINavigationController?
     
-}
-
-final class WatchListRouter: WatchListRouterProtocol {
-    
+    func openScreen(_ viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }

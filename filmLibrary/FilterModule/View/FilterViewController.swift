@@ -26,10 +26,10 @@ final class FilterViewController: UIViewController {
         return label
     }()
     
-    private var rating: Double = 0 {
+    private var rating: Float = 0 {
         didSet {
             ratingTitleLabel.text = "Рейтинг фильма от \(rating)"
-            ratingSlider.value = Float(rating)
+            ratingSlider.value = rating
         }
     }
     
@@ -44,8 +44,8 @@ final class FilterViewController: UIViewController {
     
     private lazy var ratingSlider: UISlider = {
         let slider = UISlider()
-        slider.minimumValue = 0.0
-        slider.maximumValue = 10.0
+        slider.minimumValue = Constants.Filter.minimumRating
+        slider.maximumValue = Constants.Filter.maximumRating
         slider.backgroundColor = Constants.Color.orange
         slider.tintColor = Constants.Color.white
         
@@ -72,8 +72,8 @@ final class FilterViewController: UIViewController {
     
     private lazy var yearSlider: UISlider = {
         let slider = UISlider()
-        slider.minimumValue = 1900
-        slider.maximumValue = Float(Calendar.current.component(.year, from: Date()))
+        slider.minimumValue = Float(Constants.Filter.minimumYear)
+        slider.maximumValue = Float(Constants.Filter.maximumYear)
         slider.backgroundColor = Constants.Color.orange
         slider.tintColor = Constants.Color.white
         
@@ -94,6 +94,22 @@ final class FilterViewController: UIViewController {
         button.setupShadow()
         
         button.addTarget(self, action: #selector(submitFiltersButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private lazy var resetFiltersButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Сбросить", for: .normal)
+        button.setTitleColor(Constants.Color.orange, for: .normal)
+        button.setTitleColor(Constants.Color.orange.withAlphaComponent(0.5), for: .highlighted)
+        button.backgroundColor = Constants.Color.white
+        
+        button.layer.cornerRadius = Constants.Size.cornerRadius
+        
+        button.setupShadow()
+        
+        button.addTarget(self, action: #selector(resetFiltersButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -136,9 +152,11 @@ final class FilterViewController: UIViewController {
         view.addSubview(yearSlider)
         
         view.addSubview(submitFiltersButton)
+        view.addSubview(resetFiltersButton)
     }
     
     private func setupLayout() {
+        let smallOffset = Constants.Offset.small
         let mediumOffset = Constants.Offset.medium
         let largeOffset = Constants.Offset.large
         
@@ -177,6 +195,12 @@ final class FilterViewController: UIViewController {
             make.leading.equalToSuperview().offset(mediumOffset)
             make.trailing.equalToSuperview().inset(mediumOffset)
         }
+        
+        resetFiltersButton.snp.makeConstraints { make in
+            make.top.equalTo(submitFiltersButton.snp.bottom).offset(smallOffset)
+            make.leading.equalToSuperview().offset(mediumOffset)
+            make.trailing.equalToSuperview().inset(mediumOffset)
+        }
     }
     
     private func setupFilterValues() {
@@ -189,7 +213,7 @@ final class FilterViewController: UIViewController {
         let value = ratingSlider.value
         let roundedValue = round(value * 2.0) * 0.5
         
-        rating = Double(roundedValue)
+        rating = Float(roundedValue)
     }
     
     @objc private func yearSliderValueChanged() {
@@ -201,10 +225,16 @@ final class FilterViewController: UIViewController {
     
     @objc private func submitFiltersButtonTapped() {
         let maxYear = Int(yearSlider.maximumValue)
-        let maxRating = Double(ratingSlider.maximumValue)
+        let maxRating = Float(ratingSlider.maximumValue)
         
         presenter.filterSubmit(yearRange: year...maxYear, ratingRange: rating...maxRating)
         
         dismiss(animated: true)
+    }
+    
+    @objc private func resetFiltersButtonTapped() {
+        presenter.filterReset()
+        year = Int(yearSlider.minimumValue)
+        rating = ratingSlider.minimumValue
     }
 }

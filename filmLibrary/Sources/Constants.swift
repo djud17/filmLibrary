@@ -71,4 +71,12 @@ enum Constants {
         static let watchListButton = "heart.circle.fill"
         static let watchListButtonSelected = "heart.circle"
     }
+    
+    enum Filter {
+        static let minimumYear = 1900
+        static let maximumYear: Int = Calendar.current.component(.year, from: Date())
+        
+        static let minimumRating: Float = 0.0
+        static let maximumRating: Float = 10.0
+    }
 }

@@ -105,7 +105,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
     }
     
     func filterButtonPressed(sender: UIViewController) {
-        let movieFilter = ServiceCoordinator.movieFilter
+        let movieFilter = ServiceCoordinator.webMovieFilter
         let filterPresenter: FilterPresenterProtocol = FilterPresenter(movieFilter: movieFilter) { [weak self] in
             guard let searchRequest = self?.searchRequest else { return }
             
@@ -117,7 +117,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
         
         if #available(iOS 15.0, *) {
             if let sheet = filterViewController.sheetPresentationController {
-                sheet.detents = [.medium(), .large()]
+                sheet.detents = [.medium()]
             }
         }
         

@@ -22,7 +22,7 @@ final class ApiClient: ApiClientProtocol {
     static let shared = ApiClient()
     
     private let apiToken = Constants.ApiRequest.token
-    private let movieFilter = ServiceCoordinator.movieFilter
+    private let movieFilter = ServiceCoordinator.webMovieFilter
     
     func getPopularMovies(completion: @escaping (Result<PopularMovies, ApiError>) -> Void) {
         let limitRequest = "&moviesLimit=\(Constants.downloadDataNumber)"
@@ -71,7 +71,7 @@ final class ApiClient: ApiClientProtocol {
     func searchMovie(for name: String, in page: Int, completion: @escaping (Result<MovieSearch, ApiError>) -> Void) {
         let pageRequest = "&page=\(page)"
         let sortType = "&sortField=rating.kp&sortType=-1"
-        let filterRequest = movieFilter.getFiltersRequest()
+        let filterRequest = getFiltersRequest()
         
         var urlString = "\(Constants.ApiRequest.mainUrl)movie?search=\(name)&field=name&isStrict=false"
         urlString += "&token=\(apiToken)"
@@ -96,5 +96,22 @@ final class ApiClient: ApiClientProtocol {
                 completion(.failure(.noData))
             }
         }
+    }
+    
+    private func getFiltersRequest() -> String {
+        var resultRequest = ""
+        if let rating = movieFilter.rating {
+            let min = rating.lowerBound
+            let max = rating.upperBound
+            resultRequest += "&field=rating.kp&search=\(min)-\(max)"
+        }
+        
+        if let year = movieFilter.year {
+            let min = year.lowerBound
+            let max = year.upperBound
+            resultRequest += "&field=year&search=\(min)-\(max)"
+        }
+        
+        return resultRequest
     }
 }

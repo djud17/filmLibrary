@@ -292,8 +292,6 @@ final class MovieDetailViewController: UIViewController {
         }
         
         presenter.watchListButtonTapped()
-        
-        // TODO: - WatchListTable + Filter (Web/Device)
     }
 }
 

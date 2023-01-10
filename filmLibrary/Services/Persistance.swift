@@ -10,14 +10,13 @@ import RealmSwift
 enum RealmError: Error {
     case writeError
     case deleteError
-    case readError
 }
 
 protocol StorageProtocol {
     func writeTo(object: Movie) throws
-    func readFrom() throws -> [Movie]
-    func deleteFrom(object: Movie) throws
-    func checkItemIn(objectId: Int) -> Bool
+    func readFrom() -> [Movie]
+    func deleteFrom(by objectId: Int) throws
+    func checkItemIn(by objectId: Int) -> Bool
 }
 
 final class RealmStorage: StorageProtocol {
@@ -38,37 +37,36 @@ final class RealmStorage: StorageProtocol {
         }
     }
     
-    func readFrom() throws -> [Movie] {
+    func readFrom() -> [Movie] {
         guard let realm else { return [] }
         
         let objects = realm.objects(RealmMovie.self)
         var movies = [Movie]()
         
-        if objects.isEmpty {
-            throw RealmError.readError
-        } else {
-            for realmObject in objects {
-                let movie = realmConverter.convertFromRealm(object: realmObject)
-                movies.append(movie)
-            }
+        for realmObject in objects {
+            let movie = realmConverter.convertFromRealm(object: realmObject)
+            movies.append(movie)
         }
         
         return movies
     }
     
-    func deleteFrom(object: Movie) throws {
+    func deleteFrom(by objectId: Int) throws {
         guard let realm else { return }
         
-        let realmObject = realmConverter.convertToRealm(object: object)
+        let objects = realm.objects(RealmMovie.self)
+        let deleteObject = objects.first { $0.id == objectId }
+        
+        guard let deleteObject = deleteObject else { return }
         
         do {
-            try realm.write { realm.delete(realmObject) }
+            try realm.write { realm.delete(deleteObject) }
         } catch {
             throw RealmError.deleteError
         }
     }
     
-    func checkItemIn(objectId: Int) -> Bool {
+    func checkItemIn(by objectId: Int) -> Bool {
         guard let realm else { return false }
         
         let objects = realm.objects(RealmMovie.self)

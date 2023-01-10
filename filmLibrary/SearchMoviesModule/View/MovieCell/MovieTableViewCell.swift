@@ -29,6 +29,8 @@ final class MovieTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         movieImageView.image = nil
+        movieNameLabel.text = ""
+        movieInfoLabel.text = ""
     }
 }
 

@@ -111,17 +111,30 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     }
     
     func checkWatchList() -> Bool {
-        storage.checkItemIn(objectId: movie.id)
+        storage.checkItemIn(by: movie.id)
     }
     
     func watchListButtonTapped() {
+        if checkWatchList() {
+            deleteFromStorage()
+        } else {
+            writeToStorage()
+        }
+    }
+    
+    private func deleteFromStorage() {
         do {
-            if checkWatchList() {
-                try storage.deleteFrom(object: movie)
-            } else {
-                try storage.writeTo(object: movie)
-            }
-        } catch (let error) {
+            try storage.deleteFrom(by: movie.id)
+        } catch {
+            let message = "Error - \(error.localizedDescription)"
+            showError(with: message)
+        }
+    }
+    
+    private func writeToStorage() {
+        do {
+            try storage.writeTo(object: movie)
+        } catch {
             let message = "Error - \(error.localizedDescription)"
             showError(with: message)
         }

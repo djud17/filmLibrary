@@ -8,8 +8,9 @@
 import Foundation
 
 protocol FilterPresenterProtocol {
-    func getFilterValues() -> (Int, Double)
-    func filterSubmit(yearRange: ClosedRange<Int>?, ratingRange: ClosedRange<Double>?)
+    func getFilterValues() -> (Int, Float)
+    func filterSubmit(yearRange: ClosedRange<Int>?, ratingRange: ClosedRange<Float>?)
+    func filterReset()
 }
 
 final class FilterPresenter: FilterPresenterProtocol {
@@ -21,9 +22,9 @@ final class FilterPresenter: FilterPresenterProtocol {
         self.completion = completion
     }
     
-    func getFilterValues() -> (Int, Double) {
+    func getFilterValues() -> (Int, Float) {
         var initialYear = 0
-        var initialRating: Double = 0
+        var initialRating: Float = 0
         
         if let year = movieFilter.year?.lowerBound {
             initialYear = year
@@ -35,10 +36,14 @@ final class FilterPresenter: FilterPresenterProtocol {
         return (initialYear, initialRating)
     }
     
-    func filterSubmit(yearRange: ClosedRange<Int>?, ratingRange: ClosedRange<Double>?) {
+    func filterSubmit(yearRange: ClosedRange<Int>?, ratingRange: ClosedRange<Float>?) {
         movieFilter.year = yearRange
         movieFilter.rating = ratingRange
         
         completion()
+    }
+    
+    func filterReset() {
+        movieFilter.resetFilter()
     }
 }
