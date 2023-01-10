@@ -8,12 +8,19 @@
 import Foundation
 import Kingfisher
 
-protocol PopularMoviesPresenterProtocol {
-    var delegate: PopularMoviesDelegate? { get set }
-    
+protocol PopularMoviesLoadDataProtocol {
     func loadData()
+}
+
+protocol PopularMoviesGetDataProtocol {
     func getNumberOfRecords() -> Int
     func getData(for id: Int) -> Movie?
+}
+
+protocol PopularMoviesPresenterProtocol: PopularMoviesLoadDataProtocol,
+                                         PopularMoviesGetDataProtocol {
+    var delegate: PopularMoviesDelegate? { get set }
+    
     func itemPressed(for id: Int)
 }
 
