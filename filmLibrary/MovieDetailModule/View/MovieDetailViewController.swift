@@ -15,6 +15,7 @@ protocol MovieDetailDelegate: AnyObject {
     func setupInfoBlock(rating: Double, duration: Int)
     func updateActorsBlock()
     func setupFactsBlock()
+    func showErrorAlert(alertController: UIAlertController)
 }
 
 final class MovieDetailViewController: UIViewController {
@@ -291,6 +292,8 @@ final class MovieDetailViewController: UIViewController {
         }
         
         presenter.watchListButtonTapped()
+        
+        // TODO: - WatchListTable + Filter (Web/Device)
     }
 }
 
@@ -352,6 +355,10 @@ extension MovieDetailViewController: MovieDetailDelegate {
         }
         
         return view
+    }
+    
+    func showErrorAlert(alertController: UIAlertController) {
+        present(alertController, animated: true)
     }
 }
 

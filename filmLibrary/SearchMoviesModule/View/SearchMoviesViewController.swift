@@ -11,6 +11,7 @@ import SnapKit
 protocol SearchMoviesDelegate: AnyObject {
     func updateView()
     func startLoading()
+    func showErrorAlert(alertController: UIAlertController)
 }
 
 final class SearchMoviesViewController: UIViewController {
@@ -59,6 +60,7 @@ final class SearchMoviesViewController: UIViewController {
     
     private var presenter: SearchMoviesPresenterProtocol
     private var needLoadMoreData = false
+    private let errorManager = ServiceCoordinator.errorManager
     
     // MARK: - Inits
     
@@ -190,25 +192,18 @@ extension SearchMoviesViewController: SearchMoviesDelegate {
         moviesTableView.reloadData()
         
         if presenter.getNumberOfRecords() == 0 {
-            showNoDataMessage()
+            presenter.errorAppeared()
         } else {
             moviesTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }
     
-    private func showNoDataMessage() {
-        guard let searchText = searchBar.text else { return }
-        
-        let message = "По вашему запросу \(searchText) - ничего не найдено. Попробуйте ввести другой запрос."
-        let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "Ok", style: .default)
-        alertController.addAction(okButton)
-        
-        present(alertController, animated: true)
-    }
-    
     func startLoading() {
         loadingActivityIndicator.startAnimating()
+    }
+    
+    func showErrorAlert(alertController: UIAlertController) {
+        present(alertController, animated: true)
     }
 }
 

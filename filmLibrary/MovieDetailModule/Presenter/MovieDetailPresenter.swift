@@ -23,6 +23,7 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     weak var delegate: MovieDetailDelegate?
     private let apiClient: ApiClientProtocol
     private let storage: StorageProtocol = ServiceCoordinator.storage
+    private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
     
     private var movie: Movie
     private var movieFacts: [Fact] = []
@@ -55,7 +56,8 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
                     self?.actors = success.persons
                     self?.movieFacts = success.facts
                 case .failure(let error):
-                    print("Error - \(error.localizedDescription)")
+                    let message = "Error - \(error.localizedDescription)"
+                    self?.showError(with: message)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
@@ -120,7 +122,18 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
                 try storage.writeTo(object: movie)
             }
         } catch (let error) {
+            let message = "Error - \(error.localizedDescription)"
+            showError(with: message)
+        }
+    }
+    
+    private func showError(with message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let alertController = self?.errorManager.createErrorMessage(message: message) else {
+                return
+            }
             
+            self?.delegate?.showErrorAlert(alertController: alertController)
         }
     }
 }

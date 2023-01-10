@@ -10,9 +10,13 @@ import SnapKit
 
 protocol PopularMoviesDelegate: AnyObject {
     func updateView()
+    func showErrorAlert(alertController: UIAlertController)
 }
 
 final class PopularMoviesViewController: UIViewController {
+    
+    // MARK: - Parameters
+    
     private var presenter: PopularMoviesPresenterProtocol
     
     // MARK: - UI elements
@@ -102,6 +106,10 @@ extension PopularMoviesViewController: PopularMoviesDelegate {
     func updateView() {
         loadingActivityIndicator.stopAnimating()
         moviesCollectionView.reloadData()
+    }
+    
+    func showErrorAlert(alertController: UIAlertController) {
+        present(alertController, animated: true)
     }
 }
 
