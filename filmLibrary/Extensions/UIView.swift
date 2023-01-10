@@ -9,11 +9,11 @@ import UIKit
 
 extension UIView {
     func setupShadow() {
-        self.layer.shadowColor = Constants.Color.black.cgColor
-        self.layer.shadowOpacity = 0.3
-        self.layer.shadowOffset = CGSize(width: 20, height: 20)
-        self.layer.shadowRadius = 20
-        self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = UIScreen.main.scale
+        layer.shadowColor = Constants.Color.black.cgColor
+        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 20, height: 20)
+        layer.shadowRadius = 20
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
     }
 }
