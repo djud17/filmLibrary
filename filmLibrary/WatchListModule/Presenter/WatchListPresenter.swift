@@ -7,28 +7,38 @@
 
 import UIKit
 
-protocol WatchListPresenterProtocol {
-    var delegate: WatchListDelegate? { get set }
-    
+protocol WatchListGetDataProtocol {
     func getNumberOfRecords() -> Int
-    func loadData()
     func getData(by id: Int) -> Movie?
+}
+
+protocol WatchListEventProtocol {
     func itemPressed(sender: UIViewController, for id: Int)
     func filterButtonPressed(sender: UIViewController)
+}
+
+protocol WatchListPresenterProtocol: WatchListGetDataProtocol,
+                                     WatchListEventProtocol {
+    var delegate: WatchListDelegate? { get set }
+    
+    func loadData()
     func deleteObject(by id: Int)
     func searchTextChange(searchText: String)
 }
 
 final class WatchListPresenter: WatchListPresenterProtocol {
     
-    // MARK: - Parameters
+    // MARK: - Services
     
-    weak var delegate: WatchListDelegate?
     private let storage: StorageProtocol = ServiceCoordinator.storage
     private let errorManager: ErrorManagerProtocol = ServiceCoordinator.errorManager
     private let router: RouterProtocol
     private let apiClient: ApiClientProtocol
     private let movieFilter = ServiceCoordinator.deviceMovieFilter
+    
+    // MARK: - Parameters
+    
+    weak var delegate: WatchListDelegate?
     
     private var watchListMovies: [Movie] = [] {
         didSet {
@@ -48,6 +58,8 @@ final class WatchListPresenter: WatchListPresenterProtocol {
         self.apiClient = apiClient
     }
     
+    // MARK: - Funcs
+    
     func getNumberOfRecords() -> Int {
         watchListMovies.count
     }
@@ -62,8 +74,8 @@ final class WatchListPresenter: WatchListPresenterProtocol {
     }
     
     func updateDataWithFilters() {
-        var minimalRating: Float = 0
-        var minimalYear = 1900
+        var minimalRating: Float = Constants.Filter.minRating
+        var minimalYear = Constants.Filter.minYear
         if let rating = movieFilter.rating {
             minimalRating = rating.lowerBound
         }
