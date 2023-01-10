@@ -73,10 +73,10 @@ enum Constants {
     }
     
     enum Filter {
-        static let minimumYear = 1900
-        static let maximumYear: Int = Calendar.current.component(.year, from: Date())
+        static let minYear = 1900
+        static let maxYear: Int = Calendar.current.component(.year, from: Date())
         
-        static let minimumRating: Float = 0.0
-        static let maximumRating: Float = 10.0
+        static let minRating: Float = 0.0
+        static let maxRating: Float = 10.0
     }
 }
