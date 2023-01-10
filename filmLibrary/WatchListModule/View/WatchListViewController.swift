@@ -83,6 +83,8 @@ final class WatchListViewController: UIViewController {
         moviesTableView.delegate = self
         moviesTableView.register(nibModels: [MovieTableViewCellModel.self])
         
+        searchBar.delegate = self
+        
         hideKeyboardWhenTappedAround()
         navigationController?.hideKeyboardWhenTappedAround()
     }
@@ -167,5 +169,11 @@ extension WatchListViewController: UITableViewDelegate {
             presenter.deleteObject(by: movieId)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+}
+
+extension WatchListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        presenter.searchTextChange(searchText: searchText)
     }
 }

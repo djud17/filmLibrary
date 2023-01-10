@@ -16,6 +16,7 @@ protocol WatchListPresenterProtocol {
     func itemPressed(sender: UIViewController, for id: Int)
     func filterButtonPressed(sender: UIViewController)
     func deleteObject(by id: Int)
+    func searchTextChange(searchText: String)
 }
 
 final class WatchListPresenter: WatchListPresenterProtocol {
@@ -32,6 +33,11 @@ final class WatchListPresenter: WatchListPresenterProtocol {
     private var watchListMovies: [Movie] = [] {
         didSet {
             watchListMovies = watchListMovies.sorted { $0.name < $1.name}
+        }
+    }
+    private var filteredMovies: [Movie] = [] {
+        didSet {
+            filteredMovies = filteredMovies.sorted { $0.name < $1.name}
         }
     }
     
@@ -126,6 +132,19 @@ final class WatchListPresenter: WatchListPresenterProtocol {
         } catch {
             let message = "Error - \(error.localizedDescription)"
             showError(with: message)
+        }
+    }
+    
+    func searchTextChange(searchText: String) {
+        if searchText == "" {
+            loadData()
+        } else {
+            filteredMovies.removeAll()
+            for movie in watchListMovies where movie.name.uppercased().contains(searchText.uppercased()) {
+                filteredMovies.append(movie)
+            }
+            watchListMovies = filteredMovies
+            delegate?.updateView()
         }
     }
 }
