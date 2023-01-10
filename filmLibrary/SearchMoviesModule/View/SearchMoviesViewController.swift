@@ -14,6 +14,7 @@ protocol SearchMoviesDelegate: AnyObject {
 }
 
 final class SearchMoviesViewController: UIViewController {
+    
     // MARK: - UI Elements
     
     private lazy var searchRequestLabel: UILabel = {

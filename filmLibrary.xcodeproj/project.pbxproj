@@ -41,6 +41,7 @@
 		25BA2306296A08D300B1671A /* ActorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25BA2304296A08D300B1671A /* ActorCollectionViewCell.xib */; };
 		25BA2309296A0B1C00B1671A /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA2308296A0B1C00B1671A /* Actor.swift */; };
 		25BA232B296AFF1700B1671A /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA232A296AFF1700B1671A /* CustomLabel.swift */; };
+		25C32F12296D585E00E1C713 /* WatchListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C32F11296D585E00E1C713 /* WatchListButton.swift */; };
 		25CB7515296CA19000BDBCA0 /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7514296CA19000BDBCA0 /* FilterPresenter.swift */; };
 		25CB7519296CAD8E00BDBCA0 /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7518296CAD8E00BDBCA0 /* WatchListViewController.swift */; };
 		25CB751F296CB45200BDBCA0 /* WatchListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB751E296CB45200BDBCA0 /* WatchListPresenter.swift */; };
@@ -90,6 +91,7 @@
 		25BA2304296A08D300B1671A /* ActorCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActorCollectionViewCell.xib; sourceTree = "<group>"; };
 		25BA2308296A0B1C00B1671A /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		25BA232A296AFF1700B1671A /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		25C32F11296D585E00E1C713 /* WatchListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListButton.swift; sourceTree = "<group>"; };
 		25CB7514296CA19000BDBCA0 /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		25CB7518296CAD8E00BDBCA0 /* WatchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListViewController.swift; sourceTree = "<group>"; };
 		25CB751E296CB45200BDBCA0 /* WatchListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListPresenter.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			children = (
 				25BA2302296A08AF00B1671A /* ActorCell */,
 				25AA67BB2967825A00F5989F /* MovieDetailViewController.swift */,
+				25C32F11296D585E00E1C713 /* WatchListButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -604,6 +607,7 @@
 				25AA67B229674B1400F5989F /* ServiceCoordinator.swift in Sources */,
 				25AA67B72967724B00F5989F /* MovieCollectionViewCell.swift in Sources */,
 				25CB7523296CB8C800BDBCA0 /* FilterButton.swift in Sources */,
+				25C32F12296D585E00E1C713 /* WatchListButton.swift in Sources */,
 				25AA67BC2967825A00F5989F /* MovieDetailViewController.swift in Sources */,
 				25459AAF296B656100E73EC5 /* ViewController.swift in Sources */,
 				2513C54F2969E6D300985A30 /* MovieDetailPresenter.swift in Sources */,

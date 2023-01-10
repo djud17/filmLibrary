@@ -33,6 +33,7 @@ enum Constants {
         static let white: UIColor = .white
         static let black: UIColor = .black
         static let orange = UIColor(red: 0.95, green: 0.46, blue: 0, alpha: 1)
+        static let red = UIColor(red: 0.61, green: 0.11, blue: 0.09, alpha: 1)
     }
     
     enum Offset {
@@ -44,6 +45,8 @@ enum Constants {
     }
     
     enum Size {
+        static let watchListButton: CGFloat = 40
+        
         static let imageHeight: CGFloat = 170
         static let imageWidth: CGFloat = 120
         
@@ -60,5 +63,12 @@ enum Constants {
         static let factLabel: CGFloat = 15
         
         static let large: CGFloat = 25
+    }
+    
+    enum ImageName {
+        static let placeholder = "photo"
+        
+        static let watchListButton = "heart.circle.fill"
+        static let watchListButtonSelected = "heart.circle"
     }
 }
