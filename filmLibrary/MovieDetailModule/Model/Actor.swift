@@ -14,11 +14,13 @@ struct SingleMovie: Decodable {
 }
 
 // MARK: - Fact
+
 struct Fact: Decodable {
     let value: String
 }
 
 // MARK: - Person
+
 struct Actor: Decodable {
     let id: Int
     let photo: String?

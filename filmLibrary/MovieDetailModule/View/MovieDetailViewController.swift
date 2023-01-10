@@ -89,12 +89,14 @@ final class MovieDetailViewController: UIViewController {
     private lazy var factsBlock: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
+        
         return view
     }()
     
     private lazy var watchListButton: WatchListButton = {
         let button = WatchListButton(buttonStyle: .notAdded)
         button.addTarget(self, action: #selector(watchListButtonTapped), for: .touchUpInside)
+        
         return button
     }()
     

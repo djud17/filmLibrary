@@ -26,6 +26,7 @@ final class WatchListButton: UIButton {
         tintColor = Constants.Color.red
         backgroundColor = Constants.Color.white
         layer.cornerRadius = Constants.Size.watchListButton / 2
+        
         setStyle()
     }
     
@@ -41,6 +42,7 @@ final class WatchListButton: UIButton {
         case .notAdded:
             image = UIImage(systemName: Constants.ImageName.watchListButton)
         }
+        
         setBackgroundImage(image, for: .normal)
     }
 }

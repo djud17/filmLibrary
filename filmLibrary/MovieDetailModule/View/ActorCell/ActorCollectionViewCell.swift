@@ -18,7 +18,7 @@ final class ActorCollectionViewCell: UICollectionViewCell {
         layer.borderWidth = Constants.Size.borderWidth / 2
         
         actorImageView.tintColor = Constants.Color.white
-        actorImageView.backgroundColor = .white
+        actorImageView.backgroundColor = Constants.Color.white
         actorImageView.contentMode = .scaleAspectFill
         
         setupShadow()

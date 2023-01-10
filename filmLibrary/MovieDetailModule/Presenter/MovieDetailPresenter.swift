@@ -7,16 +7,26 @@
 
 import Foundation
 
-protocol MovieDetailPresenterProtocol {
-    var delegate: MovieDetailDelegate? { get set }
-    
+protocol MovieDetailLoadDataProtocol {
     func loadData()
+    func loadMovieInfo()
+}
+
+protocol MovieDetailGetDataProtocol {
     func getNumberOfActors() -> Int
     func getData(for id: Int) -> Actor?
-    func loadMovieInfo()
     func getFacts() -> [String]
+}
+
+protocol MovieDetailWatchListProtocol {
     func checkWatchList() -> Bool
     func watchListButtonTapped()
+}
+
+protocol MovieDetailPresenterProtocol: MovieDetailLoadDataProtocol,
+                                       MovieDetailGetDataProtocol,
+                                       MovieDetailWatchListProtocol {
+    var delegate: MovieDetailDelegate? { get set }
 }
 
 final class MovieDetailPresenter: MovieDetailPresenterProtocol {
