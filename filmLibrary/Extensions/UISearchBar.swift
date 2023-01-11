@@ -13,26 +13,24 @@ extension UISearchBar {
             return searchTextField
         }
         let subViews = subviews.flatMap { $0.subviews }
-        guard let textField = (subViews.filter { $0 is UITextField }).first as? UITextField else {
-            return nil
-        }
-        return textField
+        
+        return (subViews.filter { $0 is UITextField }).first as? UITextField
     }
-
+    
     func clearBackgroundColor() {
-        guard let UISearchBarBackground: AnyClass = NSClassFromString("UISearchBarBackground") else { return }
-
+        guard let UISearchBarBackground = NSClassFromString("UISearchBarBackground") else { return }
+        
         for view in subviews {
             for subview in view.subviews where subview.isKind(of: UISearchBarBackground) {
                 subview.alpha = 0
             }
         }
     }
-
+    
     private var activityIndicator: UIActivityIndicatorView? {
-        return textField?.leftView?.subviews.compactMap { $0 as? UIActivityIndicatorView }.first
+        textField?.leftView?.subviews.compactMap { $0 as? UIActivityIndicatorView }.first
     }
-
+    
     var isLoading: Bool {
         get {
             return activityIndicator != nil
@@ -40,24 +38,27 @@ extension UISearchBar {
             if newValue {
                 if activityIndicator == nil {
                     let newActivityIndicator = UIActivityIndicatorView(style: .medium)
-                    newActivityIndicator.color = UIColor.gray
+                    newActivityIndicator.color = Constants.Color.gray
                     newActivityIndicator.startAnimating()
-                    newActivityIndicator.backgroundColor = textField?.backgroundColor ?? UIColor.white
+                    newActivityIndicator.backgroundColor = textField?.backgroundColor ?? Constants.Color.white
+                    
                     textField?.leftView?.addSubview(newActivityIndicator)
-                    let leftViewSize = textField?.leftView?.frame.size ?? CGSize.zero
-
-                    newActivityIndicator.center = CGPoint(x: leftViewSize.width - newActivityIndicator.frame.width / 2,
-                                                          y: leftViewSize.height / 2)
+                    let leftViewSize = textField?.leftView?.frame.size ?? .zero
+                    
+                    let xOrigin = leftViewSize.width - newActivityIndicator.frame.width / 2
+                    let yOrigin = leftViewSize.height / 2
+                    let activityCenter = CGPoint(x: xOrigin, y: yOrigin)
+                    newActivityIndicator.center = activityCenter
                 }
             } else {
                 activityIndicator?.removeFromSuperview()
             }
         }
     }
-
+    
     func changePlaceholderColor(_ color: UIColor) {
-        guard let UISearchBarTextFieldLabel: AnyClass = NSClassFromString("UISearchBarTextFieldLabel"),
-            let field = textField else {
+        guard let UISearchBarTextFieldLabel = NSClassFromString("UISearchBarTextFieldLabel"),
+              let field = textField else {
             return
         }
         for subview in field.subviews where subview.isKind(of: UISearchBarTextFieldLabel) {

@@ -31,6 +31,7 @@ enum Constants {
     
     enum Color {
         static let white: UIColor = .white
+        static let gray: UIColor = .gray
         static let black: UIColor = .black
         static let orange = UIColor(red: 0.95, green: 0.46, blue: 0, alpha: 1)
         static let red = UIColor(red: 0.61, green: 0.11, blue: 0.09, alpha: 1)
