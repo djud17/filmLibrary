@@ -12,7 +12,7 @@ protocol MovieDetailSetupProtocol {
     func setupPosterImage(with url: String)
     func setupMovieName(with text: String)
     func setupMovieDescription(with text: String)
-    func setupInfoBlock(rating: Double, duration: Int)
+    func setupInfoBlock(with info: String)
     func setupFactsBlock()
 }
 
@@ -313,8 +313,8 @@ extension MovieDetailViewController: MovieDetailDelegate {
         movieDescriptionLabel.text = text
     }
     
-    func setupInfoBlock(rating: Double, duration: Int) {
-        movieInfoLabel.text = "\(rating), \(duration) мин."
+    func setupInfoBlock(with info: String) {
+        movieInfoLabel.text = info
     }
     
     func updateActorsBlock() {

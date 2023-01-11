@@ -11,8 +11,8 @@ import Foundation
 
 struct SingleMovie: Decodable {
     let id: Int
-    let facts: [Fact]
-    let persons: [Actor]
+    let facts: [Fact]?
+    let persons: [Actor]?
 }
 
 // MARK: - Fact

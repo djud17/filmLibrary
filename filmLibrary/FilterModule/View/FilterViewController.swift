@@ -159,7 +159,6 @@ final class FilterViewController: UIViewController {
     }
     
     private func setupLayout() {
-        let smallOffset = Constants.Offset.small
         let mediumOffset = Constants.Offset.medium
         let largeOffset = Constants.Offset.large
         
