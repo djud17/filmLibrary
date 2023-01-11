@@ -46,6 +46,7 @@ enum Constants {
     
     enum Size {
         static let watchListButton: CGFloat = 40
+        static let filterButton: CGFloat = 40
         
         static let imageHeight: CGFloat = 170
         static let imageWidth: CGFloat = 120
@@ -54,7 +55,7 @@ enum Constants {
         static let smallCellHeight: CGFloat = 130
         
         static let cornerRadius: CGFloat = 15
-        static let borderWidth: CGFloat = 4
+        static let borderWidth: CGFloat = 2
     }
     
     enum FontSize {
@@ -70,6 +71,8 @@ enum Constants {
         
         static let watchListButton = "heart.circle.fill"
         static let watchListButtonSelected = "heart.circle"
+        
+        static let filterButton = "line.3.horizontal.decrease.circle"
     }
     
     enum Filter {

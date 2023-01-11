@@ -24,8 +24,6 @@ final class MovieTableViewCell: UITableViewCell {
         backView.backgroundColor = Constants.Color.white
         
         movieImageView.tintColor = Constants.Color.orange
-        
-        backView.setupShadow()
     }
     
     override func prepareForReuse() {
