@@ -29,7 +29,7 @@ final class WatchListViewController: UIViewController {
     }()
     
     private lazy var filterButton: UIButton = {
-        let button = FilterButton(with: "Фильтры")
+        let button = FilterButton()
         button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         
         return button
@@ -38,6 +38,7 @@ final class WatchListViewController: UIViewController {
     private lazy var moviesTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
+        tableView.layer.cornerRadius = Constants.Size.cornerRadius
         
         return tableView
     }()
@@ -100,23 +101,23 @@ final class WatchListViewController: UIViewController {
         let smallOffset = Constants.Offset.small
         let mediumOffset = Constants.Offset.medium
         
-        filterButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(smallOffset)
-            make.leading.equalToSuperview().offset(smallOffset)
-            make.trailing.equalToSuperview().inset(smallOffset)
+        searchBar.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(mediumOffset)
+            make.leading.equalToSuperview()
+            make.trailing.equalTo(filterButton.snp.leading).inset(-mediumOffset)
         }
         
-        searchBar.snp.makeConstraints { make in
-            make.top.equalTo(filterButton.snp.bottom).offset(mediumOffset)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+        filterButton.snp.makeConstraints { make in
+            make.centerY.equalTo(searchBar.snp.centerY)
+            make.trailing.equalToSuperview().inset(smallOffset)
+            make.width.height.equalTo(Constants.Size.filterButton)
         }
         
         moviesTableView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.equalToSuperview().offset(smallOffset)
+            make.trailing.equalToSuperview().inset(smallOffset)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(smallOffset)
         }
     }
     

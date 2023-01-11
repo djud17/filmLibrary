@@ -31,6 +31,7 @@ enum Constants {
     
     enum Color {
         static let white: UIColor = .white
+        static let gray: UIColor = .gray
         static let black: UIColor = .black
         static let orange = UIColor(red: 0.95, green: 0.46, blue: 0, alpha: 1)
         static let red = UIColor(red: 0.61, green: 0.11, blue: 0.09, alpha: 1)
@@ -46,6 +47,7 @@ enum Constants {
     
     enum Size {
         static let watchListButton: CGFloat = 40
+        static let filterButton: CGFloat = 40
         
         static let imageHeight: CGFloat = 170
         static let imageWidth: CGFloat = 120
@@ -54,7 +56,7 @@ enum Constants {
         static let smallCellHeight: CGFloat = 130
         
         static let cornerRadius: CGFloat = 15
-        static let borderWidth: CGFloat = 4
+        static let borderWidth: CGFloat = 2
     }
     
     enum FontSize {
@@ -70,6 +72,8 @@ enum Constants {
         
         static let watchListButton = "heart.circle.fill"
         static let watchListButtonSelected = "heart.circle"
+        
+        static let filterButton = "line.3.horizontal.decrease.circle"
     }
     
     enum Filter {

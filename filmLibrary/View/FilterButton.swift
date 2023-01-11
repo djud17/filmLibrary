@@ -8,15 +8,14 @@
 import UIKit
 
 final class FilterButton: UIButton {
-    init(with title: String) {
+    init() {
         super.init(frame: .zero)
         
-        setTitle(title, for: .normal)
-        setTitleColor(Constants.Color.orange, for: .normal)
-        setTitleColor(Constants.Color.orange.withAlphaComponent(0.5), for: .highlighted)
+        tintColor = Constants.Color.orange
         backgroundColor = Constants.Color.white
-
-        layer.cornerRadius = Constants.Size.cornerRadius
+        layer.cornerRadius = Constants.Size.filterButton / 2
+        
+        setBackgroundImage(UIImage(systemName: Constants.ImageName.filterButton), for: .normal)
         
         setupShadow()
     }

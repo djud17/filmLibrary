@@ -18,16 +18,7 @@ protocol SearchMoviesDelegate: AnyObject {
 final class SearchMoviesViewController: UIViewController {
     
     // MARK: - UI Elements
-    
-    private lazy var searchRequestLabel: UILabel = {
-        let label = CustomLabel(withType: .title)
-        label.textColor = Constants.Color.white
-        label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: Constants.FontSize.large)
-        
-        return label
-    }()
-    
+
     private lazy var searchBar: UISearchBar = {
         let searchBar = MovieSearchBar(with: "Введите название фильма")
         
@@ -37,21 +28,13 @@ final class SearchMoviesViewController: UIViewController {
     private lazy var moviesTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
+        tableView.layer.cornerRadius = Constants.Size.cornerRadius
         
         return tableView
     }()
     
-    private lazy var loadingActivityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .large
-        activityIndicator.color = Constants.Color.orange
-        
-        return activityIndicator
-    }()
-    
     private lazy var filterButton: UIButton = {
-        let button = FilterButton(with: "Фильтры")
+        let button = FilterButton()
         button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         
         return button
@@ -105,10 +88,8 @@ final class SearchMoviesViewController: UIViewController {
     }
     
     private func setupHierarchy() {
-        view.addSubview(searchRequestLabel)
         view.addSubview(searchBar)
         view.addSubview(moviesTableView)
-        view.addSubview(loadingActivityIndicator)
         view.addSubview(filterButton)
     }
     
@@ -116,33 +97,23 @@ final class SearchMoviesViewController: UIViewController {
         let smallOffset = Constants.Offset.small
         let mediumOffset = Constants.Offset.medium
         
-        filterButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(smallOffset)
-            make.leading.equalToSuperview().offset(smallOffset)
-            make.trailing.equalToSuperview().inset(smallOffset)
-        }
-        
-        searchRequestLabel.snp.makeConstraints { make in
-            make.top.equalTo(filterButton.snp.bottom).offset(mediumOffset)
-            make.leading.equalToSuperview().offset(mediumOffset)
-            make.trailing.equalToSuperview().inset(mediumOffset)
-        }
-        
         searchBar.snp.makeConstraints { make in
-            make.top.equalTo(searchRequestLabel.snp.bottom).offset(smallOffset)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(mediumOffset)
             make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.trailing.equalTo(filterButton.snp.leading).inset(-mediumOffset)
+        }
+        
+        filterButton.snp.makeConstraints { make in
+            make.centerY.equalTo(searchBar.snp.centerY)
+            make.trailing.equalToSuperview().inset(smallOffset)
+            make.width.height.equalTo(Constants.Size.filterButton)
         }
         
         moviesTableView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
-        loadingActivityIndicator.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.leading.equalToSuperview().offset(smallOffset)
+            make.trailing.equalToSuperview().inset(smallOffset)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(smallOffset)
         }
     }
     
@@ -194,7 +165,7 @@ extension SearchMoviesViewController: UITableViewDelegate {
 
 extension SearchMoviesViewController: SearchMoviesDelegate {
     func updateView() {
-        loadingActivityIndicator.stopAnimating()
+        searchBar.isLoading = false
         moviesTableView.reloadData()
         
         if presenter.getNumberOfRecords() == 0 {
@@ -203,7 +174,7 @@ extension SearchMoviesViewController: SearchMoviesDelegate {
     }
     
     func startLoading() {
-        loadingActivityIndicator.startAnimating()
+        searchBar.isLoading = true
     }
     
     func showErrorAlert(alertController: UIAlertController) {
@@ -219,7 +190,6 @@ extension SearchMoviesViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
         
-        searchRequestLabel.text = "Результаты по запросу: \(searchText)"
         presenter.searchData(withText: searchText)
         searchBar.resignFirstResponder()
     }

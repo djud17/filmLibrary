@@ -51,6 +51,9 @@ final class FilterViewController: UIViewController {
         
         slider.addTarget(self, action: #selector(ratingSliderValueChanged), for: .valueChanged)
         
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(ratingSliderTapped))
+        slider.addGestureRecognizer(gesture)
+        
         return slider
     }()
     
@@ -78,6 +81,9 @@ final class FilterViewController: UIViewController {
         slider.tintColor = Constants.Color.white
         
         slider.addTarget(self, action: #selector(yearSliderValueChanged), for: .valueChanged)
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(yearSliderTapped))
+        slider.addGestureRecognizer(gesture)
         
         return slider
     }()
@@ -150,9 +156,6 @@ final class FilterViewController: UIViewController {
         
         view.addSubview(yearTitleLabel)
         view.addSubview(yearSlider)
-        
-        view.addSubview(submitFiltersButton)
-        view.addSubview(resetFiltersButton)
     }
     
     private func setupLayout() {
@@ -190,21 +193,39 @@ final class FilterViewController: UIViewController {
             make.trailing.equalToSuperview().inset(mediumOffset)
         }
         
-        submitFiltersButton.snp.makeConstraints { make in
-            make.top.equalTo(yearSlider.snp.bottom).offset(largeOffset)
-            make.leading.equalToSuperview().offset(mediumOffset)
-            make.trailing.equalToSuperview().inset(mediumOffset)
-        }
-        
-        resetFiltersButton.snp.makeConstraints { make in
-            make.top.equalTo(submitFiltersButton.snp.bottom).offset(smallOffset)
-            make.leading.equalToSuperview().offset(mediumOffset)
-            make.trailing.equalToSuperview().inset(mediumOffset)
-        }
+        setupButtonsBlock()
     }
     
     private func setupFilterValues() {
         (year, rating) = presenter.getFilterValues()
+    }
+    
+    private func setupButtonsBlock() {
+        let mediumOffset = Constants.Offset.medium
+        let largeOffset = Constants.Offset.large
+        
+        let buttonsStackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .horizontal
+            stackView.distribution = .fillEqually
+            stackView.alignment = .center
+            stackView.backgroundColor = .clear
+            stackView.spacing = mediumOffset
+            
+            return stackView
+        }()
+        
+        buttonsStackView.addArrangedSubview(submitFiltersButton)
+        buttonsStackView.addArrangedSubview(resetFiltersButton)
+        
+        view.addSubview(buttonsStackView)
+        
+        buttonsStackView.snp.makeConstraints { make in
+            make.top.equalTo(yearSlider.snp.bottom).offset(largeOffset)
+            make.leading.equalToSuperview().offset(mediumOffset)
+            make.trailing.equalToSuperview().inset(mediumOffset)
+            make.height.equalTo(40)
+        }
     }
     
     // MARK: - Actions
@@ -238,5 +259,33 @@ final class FilterViewController: UIViewController {
         rating = ratingSlider.minimumValue
         
         dismiss(animated: true)
+    }
+    
+    @objc private func yearSliderTapped(_ gesture: UIGestureRecognizer) {
+        guard let yearSlider = gesture.view as? UISlider,
+              !yearSlider.isHighlighted else { return }
+        
+        let value = countValue(slider: yearSlider, with: gesture)
+        yearSlider.setValue(value, animated: true)
+        year = Int(value)
+    }
+    
+    @objc private func ratingSliderTapped(_ gesture: UIGestureRecognizer) {
+        guard let ratingSlider = gesture.view as? UISlider,
+              !ratingSlider.isHighlighted else { return }
+        
+        let value = countValue(slider: ratingSlider, with: gesture)
+        let roundedValue = round(value * 2.0) * 0.5
+        ratingSlider.setValue(roundedValue, animated: true)
+        rating = roundedValue
+    }
+    
+    private func countValue(slider: UISlider, with gesture: UIGestureRecognizer) -> Float {
+        let tapPoint: CGPoint = gesture.location(in: slider)
+        let percentage = tapPoint.x / slider.bounds.size.width
+        let delta = Float(percentage) * (slider.maximumValue - slider.minimumValue)
+        let value = slider.minimumValue + delta
+        
+        return value
     }
 }

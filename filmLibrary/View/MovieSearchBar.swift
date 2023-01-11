@@ -11,11 +11,13 @@ final class MovieSearchBar: UISearchBar {
     init(with text: String) {
         super.init(frame: .zero)
         
-        searchBarStyle = .prominent
         barTintColor = Constants.Color.white
         keyboardAppearance = .light
         returnKeyType = .search
         placeholder = text
+        textField?.backgroundColor = Constants.Color.white
+        clearBackgroundColor()
+        setupShadow()
     }
     
     required init?(coder: NSCoder) {
