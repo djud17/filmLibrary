@@ -51,6 +51,9 @@ final class FilterViewController: UIViewController {
         
         slider.addTarget(self, action: #selector(ratingSliderValueChanged), for: .valueChanged)
         
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(ratingSliderTapped))
+        slider.addGestureRecognizer(gesture)
+        
         return slider
     }()
     
@@ -78,6 +81,9 @@ final class FilterViewController: UIViewController {
         slider.tintColor = Constants.Color.white
         
         slider.addTarget(self, action: #selector(yearSliderValueChanged), for: .valueChanged)
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(yearSliderTapped))
+        slider.addGestureRecognizer(gesture)
         
         return slider
     }()
@@ -238,5 +244,33 @@ final class FilterViewController: UIViewController {
         rating = ratingSlider.minimumValue
         
         dismiss(animated: true)
+    }
+    
+    @objc private func yearSliderTapped(_ gesture: UIGestureRecognizer) {
+        guard let yearSlider = gesture.view as? UISlider,
+              !yearSlider.isHighlighted else { return }
+        
+        let value = countValue(slider: yearSlider, with: gesture)
+        yearSlider.setValue(value, animated: true)
+        year = Int(value)
+    }
+    
+    @objc private func ratingSliderTapped(_ gesture: UIGestureRecognizer) {
+        guard let ratingSlider = gesture.view as? UISlider,
+              !ratingSlider.isHighlighted else { return }
+        
+        let value = countValue(slider: ratingSlider, with: gesture)
+        let roundedValue = round(value * 2.0) * 0.5
+        ratingSlider.setValue(roundedValue, animated: true)
+        rating = roundedValue
+    }
+    
+    private func countValue(slider: UISlider, with gesture: UIGestureRecognizer) -> Float {
+        let tapPoint: CGPoint = gesture.location(in: slider)
+        let percentage = tapPoint.x / slider.bounds.size.width
+        let delta = Float(percentage) * (slider.maximumValue - slider.minimumValue)
+        let value = slider.minimumValue + delta
+        
+        return value
     }
 }
