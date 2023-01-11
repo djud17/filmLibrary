@@ -11,9 +11,9 @@ import Foundation
 struct Movie: Decodable {
     let poster: Poster?
     let rating: Rating
-    let movieLength: Int?
     let id: Int
     let name: String
+    let movieLength: Int?
     let description: String?
     let year: Int?
     let shortDescription: String?

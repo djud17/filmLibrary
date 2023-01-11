@@ -33,8 +33,8 @@ final class FilterPresenter: FilterPresenterProtocol {
     // MARK: - Funcs
     
     func getFilterValues() -> (Int, Float) {
-        var initialYear = 0
-        var initialRating: Float = 0
+        var initialYear = Constants.Filter.minYear
+        var initialRating = Constants.Filter.minRating
         
         if let year = movieFilter.year?.lowerBound {
             initialYear = year

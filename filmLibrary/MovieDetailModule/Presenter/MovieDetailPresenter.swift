@@ -56,9 +56,18 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
     func loadData() {
         let imageUrl = movie.poster?.previewUrl
         delegate?.setupPosterImage(with: imageUrl ?? "")
-        delegate?.setupMovieName(with: movie.name + " (\(movie.year ?? 0))")
+        
+        delegate?.setupMovieName(with: movie.name)
         delegate?.setupMovieDescription(with: movie.description ?? "")
-        delegate?.setupInfoBlock(rating: movie.rating.kinopoisk, duration: movie.movieLength ?? 0)
+        
+        var info = "\(movie.rating.kinopoisk)"
+        if let duration = movie.movieLength {
+            info += ", \(duration) мин."
+        }
+        if let year = movie.year {
+            info += ", \(year) г."
+        }
+        delegate?.setupInfoBlock(with: info)
     }
     
     func getNumberOfActors() -> Int {
@@ -72,8 +81,12 @@ final class MovieDetailPresenter: MovieDetailPresenterProtocol {
             self?.apiClient.getMovie(by: movieId) { result in
                 switch result {
                 case .success(let success):
-                    self?.actors = success.persons
-                    self?.movieFacts = success.facts
+                    if let actors = success.persons {
+                        self?.actors = actors
+                    }
+                    if let facts = success.facts {
+                        self?.movieFacts = facts
+                    }
                 case .failure(let error):
                     let message = "Ошибка во время загрузки детальной информации о фильме - \(error.localizedDescription)"
                     self?.showError(with: message)

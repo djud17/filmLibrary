@@ -118,9 +118,9 @@ private final class RealmConverter: ConverterProtocol {
         
         let movie = Movie(poster: poster,
                           rating: rating,
-                          movieLength: object.movieLength,
                           id: object.id,
                           name: object.name,
+                          movieLength: object.movieLength,
                           description: object.movieDescription,
                           year: object.year,
                           shortDescription: object.shortDescription)

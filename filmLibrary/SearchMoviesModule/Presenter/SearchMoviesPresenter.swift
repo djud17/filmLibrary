@@ -57,9 +57,7 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
         searchRequest = searchText
         
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            guard let currentPage = self?.currentPage else { return }
-            
-            self?.apiClient.searchMovie(for: searchText, in: currentPage) { [weak self] result in
+            self?.apiClient.searchMovie(for: searchText, in: 1) { [weak self] result in
                 switch result {
                 case .success(let success):
                     self?.pages = success.pages
@@ -82,6 +80,8 @@ final class SearchMoviesPresenter: SearchMoviesPresenterProtocol {
     }
     
     func loadMoreData() {
+        guard pages > currentPage else { return }
+        
         currentPage += 1
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             guard let pages = self?.pages,
